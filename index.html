@@ -4,271 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Notre Mariage | RSVP Groupe</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-
+    <title>RSVP | Notre Mariage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #af946d; /* Or mat */
-            --bg: #fdfcf9;      /* Blanc cassé */
-            --text: #2c3e50;
-            --font-title: 'Playfair Display', serif;
-            --font-body: 'Lato', sans-serif;
-        }
-
+        :root { --primary: #af946d; --bg: #fdfcf9; --text: #2c3e50; }
         * { box-sizing: border-box; }
-
-        body {
-            font-family: var(--font-body);
-            color: var(--text);
-            background-color: var(--bg);
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        header {
-            height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        h1 { font-family: var(--font-title); font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 10px; font-weight: 400; }
-        h2 { font-family: var(--font-title); font-size: 2rem; text-align: center; margin-bottom: 30px; color: var(--primary); }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto 100px auto;
-            padding: 0 20px;
-        }
-
-        /* Carte du Formulaire */
-        .form-card {
-            background: white;
-            padding: clamp(20px, 5vw, 40px);
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-        }
-
-        .guest-entry {
-            padding: 20px 0;
-            border-bottom: 1px dashed #eee;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .guest-entry:last-of-type { border-bottom: none; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .guest-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .guest-header h3 { font-family: var(--font-title); margin: 0; font-size: 1.3rem; }
-
+        body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 40px auto; }
+        .form-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; text-align: center; }
+        h3 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 0; color: var(--primary); }
+        .guest-entry { padding: 20px 0; border-bottom: 1px dashed #ddd; margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; }
-
-        label { display: block; margin-bottom: 5px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; opacity: 0.8; }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: var(--font-body);
-        }
-
-        input:focus { outline: none; border-color: var(--primary); }
-
-        /* Boutons */
-        .btn-add {
-            background: none;
-            border: 2px dashed var(--primary);
-            color: var(--primary);
-            width: 100%;
-            padding: 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 700;
-            margin-top: 20px;
-            transition: all 0.2s;
-        }
-
-        .btn-add:hover { background: #fcf9f2; }
-
-        .btn-submit {
-            width: 100%;
-            padding: 18px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(175, 148, 109, 0.3);
-        }
-
-        .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; box-shadow: none; }
-
-        .remove-link { color: #e74c3c; font-size: 0.8rem; cursor: pointer; text-decoration: underline; }
-
-        #status-message {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: 700;
-            padding: 15px;
-            border-radius: 6px;
-            display: none;
-        }
-
-        .success { display: block !important; background: #dcfce7; color: #15803d; }
-        .error { display: block !important; background: #fee2e2; color: #b91c1c; }
-
-        footer { text-align: center; padding: 40px; opacity: 0.5; font-size: 0.8rem; }
+        label { display: block; margin-bottom: 5px; font-size: 0.9rem; font-weight: bold; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; }
+        .btn-add { background: none; border: 2px dashed var(--primary); color: var(--primary); width: 100%; padding: 15px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
+        .btn-submit { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 6px; font-size: 1.1rem; cursor: pointer; font-weight: bold; }
+        .btn-submit:disabled { background: #ccc; }
+        #status-message { margin-top: 20px; padding: 15px; border-radius: 6px; text-align: center; display: none; }
+        .success { display: block; background: #dcfce7; color: #15803d; }
+        .error { display: block; background: #fee2e2; color: #b91c1c; }
+        .remove-btn { color: #e74c3c; cursor: pointer; font-size: 0.8rem; float: right; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Nom 1 & Nom 2</h1>
-        <p>Réponse souhaitée avant le [Date Limite]</p>
-    </header>
-
-    <div class="container">
-        <div class="form-card">
-            <h2>RSVP Groupe</h2>
-            <form id="wedding-form">
-                <div id="guests-container">
-                    <div class="guest-entry">
-                        <div class="guest-header">
-                            <h3>Invité #1 (Principal)</h3>
-                        </div>
-                        <div class="form-group">
-                            <label>Nom complet</label>
-                            <input type="text" class="guest-name" placeholder="Prénom Nom" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Choix de repas</label>
-                            <select class="guest-meal" required>
-                                <option value="">Choisir un plat...</option>
-                                <option value="Boeuf">Filet de bœuf</option>
-                                <option value="Saumon">Saumon grillé</option>
-                                <option value="Vegetarien">Risotto (Végétarien)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Allergies ou restrictions</label>
-                            <input type="text" class="guest-rest" placeholder="Ex: Sans gluten, noix...">
-                        </div>
+<div class="container">
+    <div class="form-card">
+        <h2>RSVP Mariage</h2>
+        <form id="wedding-form">
+            <div id="guests-container">
+                <div class="guest-entry">
+                    <h3>Invité #1</h3>
+                    <div class="form-group">
+                        <label>Nom complet</label>
+                        <input type="text" class="guest-name" required placeholder="Prénom Nom">
+                    </div>
+                    <div class="form-group">
+                        <label>Choix de repas</label>
+                        <select class="guest-meal" required>
+                            <option value="">Choisir...</option>
+                            <option value="Boeuf">Boeuf</option>
+                            <option value="Saumon">Saumon</option>
+                            <option value="Vegetarien">Végétarien</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Allergies / Restrictions</label>
+                        <input type="text" class="guest-rest" placeholder="Ex: Noix, gluten...">
                     </div>
                 </div>
+            </div>
 
-                <button type="button" class="btn-add" id="add-guest-btn">+ Ajouter un invité (Conjoint, enfant...)</button>
-
-                <button type="submit" class="btn-submit" id="submit-btn">Confirmer pour le groupe</button>
-                <div id="status-message"></div>
-            </form>
-        </div>
+            <button type="button" class="btn-add" id="add-guest-btn">+ Ajouter un invité</button>
+            <button type="submit" class="btn-submit" id="submit-btn">Confirmer pour le groupe</button>
+            <div id="status-message"></div>
+        </form>
     </div>
+</div>
 
-    <footer>
-        [Lieu du mariage] — 2026
-    </footer>
+<script>
+    const container = document.getElementById('guests-container');
+    const addBtn = document.getElementById('add-guest-btn');
 
-    <script>
-        const container = document.getElementById('guests-container');
-        const addBtn = document.getElementById('add-guest-btn');
-        const rsvpForm = document.getElementById('wedding-form');
-        const statusMsg = document.getElementById('status-message');
+    addBtn.addEventListener('click', () => {
+        const count = container.querySelectorAll('.guest-entry').length;
+        const div = document.createElement('div');
+        div.className = 'guest-entry';
+        div.innerHTML = `
+            <h3>Invité #${count + 1} <span class="remove-btn" onclick="this.parentElement.parentElement.remove()">Supprimer</span></h3>
+            <div class="form-group">
+                <label>Nom complet</label>
+                <input type="text" class="guest-name" required>
+            </div>
+            <div class="form-group">
+                <label>Choix de repas</label>
+                <select class="guest-meal" required>
+                    <option value="">Choisir...</option>
+                    <option value="Boeuf">Boeuf</option>
+                    <option value="Saumon">Saumon</option>
+                    <option value="Vegetarien">Végétarien</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Allergies / Restrictions</label>
+                <input type="text" class="guest-rest">
+            </div>
+        `;
+        container.appendChild(div);
+    });
 
-        // Ajouter un invité
-        addBtn.addEventListener('click', () => {
-            const count = container.querySelectorAll('.guest-entry').length;
-            if (count >= 10) return alert("Maximum 10 personnes.");
+    document.getElementById('wedding-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        const status = document.getElementById('status-message');
+        btn.disabled = true;
+        status.innerText = "Envoi en cours...";
+        status.className = "";
 
-            const div = document.createElement('div');
-            div.className = 'guest-entry';
-            div.innerHTML = `
-                <div class="guest-header">
-                    <h3>Invité #${count + 1}</h3>
-                    <span class="remove-link" onclick="this.parentElement.parentElement.remove()">Supprimer</span>
-                </div>
-                <div class="form-group">
-                    <label>Nom complet</label>
-                    <input type="text" class="guest-name" placeholder="Prénom Nom" required>
-                </div>
-                <div class="form-group">
-                    <label>Choix de repas</label>
-                    <select class="guest-meal" required>
-                        <option value="">Choisir un plat...</option>
-                        <option value="Boeuf">Filet de bœuf</option>
-                        <option value="Saumon">Saumon grillé</option>
-                        <option value="Vegetarien">Risotto (Végétarien)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Allergies ou restrictions</label>
-                    <input type="text" class="guest-rest" placeholder="Ex: Sans gluten, noix...">
-                </div>
-            `;
-            container.appendChild(div);
-        });
+        const guestEntries = container.querySelectorAll('.guest-entry');
+        const guests = Array.from(guestEntries).map(el => ({
+            name: el.querySelector('.guest-name').value,
+            meal: el.querySelector('.guest-meal').value,
+            restrictions: el.querySelector('.guest-rest').value
+        }));
 
-        // Soumission
-        rsvpForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            
-            btn.disabled = true;
-            statusMsg.innerText = "Envoi des réponses en cours...";
-            statusMsg.className = "";
+        try {
+            const response = await fetch('/api/rsvp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    groupName: guests[0].name,
+                    guests: guests
+                })
+            });
 
-            // Collecte des données
-            const guestEntries = container.querySelectorAll('.guest-entry');
-            const guests = Array.from(guestEntries).map(el => ({
-                name: el.querySelector('.guest-name').value,
-                meal: el.querySelector('.guest-meal').value,
-                restrictions: el.querySelector('.guest-rest').value
-            }));
+            const resData = await response.json();
 
-            try {
-                const response = await fetch('/api/rsvp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        groupName: guests[0].name, // Utilise le nom du premier pour lier le groupe
-                        guests: guests
-                    }),
-                });
-
-                if (response.ok) {
-                    statusMsg.innerText = "Merci ! Vos présences ont été enregistrées avec succès. ✨";
-                    statusMsg.className = "success";
-                    rsvpForm.style.display = "none";
-                } else {
-                    throw new Error();
-                }
-            } catch (err) {
-                statusMsg.innerText = "Erreur lors de l'envoi. Veuillez vérifier votre connexion.";
-                statusMsg.className = "error";
-                btn.disabled = false;
+            if (response.ok) {
+                status.innerText = "Parfait ! Vos réponses sont enregistrées. ✨";
+                status.className = "success";
+                e.target.style.display = 'none';
+            } else {
+                throw new Error(resData.error || "Erreur lors de l'envoi");
             }
-        });
-    </script>
+        } catch (err) {
+            status.innerText = "Oups : " + err.message;
+            status.className = "error";
+            btn.disabled = false;
+        }
+    });
+</script>
+
 </body>
 </html>

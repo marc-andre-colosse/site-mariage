@@ -1,15 +1,23 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).send();
+  // Sécurité : Uniquement du POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Méthode non autorisée' });
+  }
 
-  const { guests, groupName } = req.body; // "guests" sera un tableau d'objets
+  const { guests, groupName } = req.body;
 
-  // On prépare le format attendu par Airtable : { records: [ { fields: {...} }, ... ] }
+  // Validation rapide
+  if (!guests || !Array.isArray(guests)) {
+    return res.status(400).json({ error: "Format de données invalide" });
+  }
+
+  // Transformation des données pour le format "Multi-records" d'Airtable
   const records = guests.map(guest => ({
     fields: {
-      "Nom complet": guest.name,
-      "Repas": guest.meal,
-      "Restrictions": guest.restrictions || "",
-      "Groupe": groupName // Le nom du premier invité sert de lien pour les regrouper
+      "Personne": guest.name,      // <--- Vérifie le nom exact dans Airtable
+      "Repas": guest.meal,            // <--- Vérifie le nom exact dans Airtable
+      "Restrictions": guest.restrictions || "", 
+      "Groupe": groupName             // <--- Vérifie le nom exact dans Airtable
     }
   }));
 
@@ -20,13 +28,19 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${process.env.AIRTABLE_API_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ records }) // On envoie le tableau de records
+      body: JSON.stringify({ records })
     });
 
-    if (!response.ok) throw new Error('Erreur Airtable');
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Erreur Airtable détaillée:', data);
+      return res.status(response.status).json({ error: data.error.message || "Erreur Airtable" });
+    }
 
     return res.status(200).json({ success: true });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    console.error('Erreur Serveur:', error);
+    return res.status(500).json({ error: "Erreur interne du serveur" });
   }
 }
