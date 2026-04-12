@@ -14,10 +14,10 @@ export default async function handler(req, res) {
   // Transformation des données pour le format multi-records d'Airtable
   const records = guests.map(guest => ({
     fields: {
-      "Personne": guest.name,       // Correspond à ta colonne 'Nom complet'
+      "Personne": guest.name,          // Ta correction est ici !
       "Repas": guest.meal,             // Recevra "Repas 1" ou "Repas 2"
       "Restrictions": guest.restrictions || "",
-      "Chanson": guest.song || "",     // Correspond à ta nouvelle colonne 'Chanson'
+      "Chanson": guest.song || "",     // Ta nouvelle colonne
       "Groupe": groupName              // Le nom de l'Invité #1 pour lier tout le monde
     }
   }));
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
     const airtableData = await response.json();
 
-    // Si Airtable retourne une erreur (ex: mauvais nom de colonne ou de choix de repas)
+    // Si Airtable retourne une erreur
     if (!response.ok) {
       console.error('Erreur Airtable détaillée:', airtableData);
       return res.status(response.status).json({ 
