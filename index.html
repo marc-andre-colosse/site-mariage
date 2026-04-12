@@ -351,8 +351,8 @@
                     `;
                     formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // === AJOUT : DÉCLENCHEMENT DU VIDÉO 2 ===
-                    openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/FWXz1h7U0M0?si=SrmSKBwLu8Rpg5R1&amp;start=192" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
+                    // === AJOUT : DÉCLENCHEMENT DU VIDÉO 2 (Avec autoplay et mute=0) ===
+                    openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/FWXz1h7U0M0?si=SrmSKBwLu8Rpg5R1&autoplay=1&mute=0&start=192" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
 
                 } else {
                     const resData = await response.json();
@@ -369,6 +369,9 @@
         // MODULE OPTIONNEL : LOGIQUE KONAMI & POPUP
         // ==========================================
         
+        // Permet de s'assurer que la fenêtre "écoute" le clavier dès le départ
+        window.focus();
+
         // 1. Fonctions pour ouvrir/fermer le popup
         function openLightbox(iframeHTML) {
             document.getElementById('lightbox-video-wrapper').innerHTML = iframeHTML;
@@ -380,28 +383,28 @@
             document.getElementById('lightbox-video-wrapper').innerHTML = ''; // Coupe le son à la fermeture
         }
 
-// 2. Le Konami Code optimisé
-const konamiSequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
-let konamiIndex = 0;
+        // 2. Le Konami Code optimisé
+        const konamiSequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+        let konamiIndex = 0;
 
-document.addEventListener('keydown', (e) => {
-    // On convertit tout en minuscule pour être sûr
-    const key = e.key.toLowerCase();
-    
-    if (key === konamiSequence[konamiIndex]) {
-        konamiIndex++;
-        if (konamiIndex === konamiSequence.length) {
-            konamiIndex = 0;
-            // Déclenchement Vidéo 1
-            openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/fPO76Jlnz6c?si=FhKri1eIPUOb71BF&autoplay=1&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
-        }
-    } else {
-        // Optionnel : on ne reset pas si on appuie sur une touche "morte" (Shift, etc.)
-        if (!['shift', 'control', 'alt'].includes(key)) {
-            konamiIndex = 0;
-        }
-    }
-});
+        document.addEventListener('keydown', (e) => {
+            // On convertit tout en minuscule pour être sûr
+            const key = e.key.toLowerCase();
+            
+            if (key === konamiSequence[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiSequence.length) {
+                    konamiIndex = 0;
+                    // Déclenchement Vidéo 1 (Avec autoplay et mute=0)
+                    openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/fPO76Jlnz6c?si=FhKri1eIPUOb71BF&autoplay=1&mute=0&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
+                }
+            } else {
+                // Optionnel : on ne reset pas si on appuie sur une touche "morte" (Shift, etc.)
+                if (!['shift', 'control', 'alt'].includes(key)) {
+                    konamiIndex = 0;
+                }
+            }
+        });
         // ==========================================
     </script>
 </body>
