@@ -128,13 +128,32 @@
 
             const resData = await response.json();
 
-            if (response.ok) {
-                status.innerText = "Parfait ! Vos réponses sont enregistrées. ✨";
-                status.className = "success";
-                e.target.style.display = 'none';
-            } else {
-                throw new Error(resData.error || "Erreur lors de l'envoi");
-            }
+if (response.ok) {
+    // 1. On remplace le contenu du formulaire par un message de succès élégant
+    const formCard = document.querySelector('.form-card');
+    formCard.innerHTML = `
+        <div style="text-align: center; padding: 40px 20px;">
+            <div style="font-size: 3rem; margin-bottom: 20px;">✨</div>
+            <h2 style="font-family: 'Playfair Display', serif; color: var(--primary); margin-bottom: 15px;">C'est confirmé !</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6;">
+                Merci beaucoup. Vos réponses ont été enregistrées avec succès.<br>
+                Nous avons bien hâte de célébrer avec vous !
+            </p>
+            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                <p style="font-style: italic; font-size: 0.9rem; opacity: 0.7;">
+                    Si vous avez fait une erreur, contactez-nous directement.
+                </p>
+            </div>
+        </div>
+    `;
+    
+    // 2. Optionnel : On remonte en haut de la carte si l'utilisateur était descendu
+    formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+} else {
+    const resData = await response.json();
+    throw new Error(resData.error || "Erreur lors de l'envoi");
+}
         } catch (err) {
             status.innerText = "Oups : " + err.message;
             status.className = "error";
