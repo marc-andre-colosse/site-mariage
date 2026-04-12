@@ -1,23 +1,21 @@
 export default async function handler(req, res) {
-  // Sécurité : Uniquement du POST
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Méthode non autorisée' });
   }
 
   const { guests, groupName } = req.body;
 
-  // Validation rapide
   if (!guests || !Array.isArray(guests)) {
     return res.status(400).json({ error: "Format de données invalide" });
   }
 
-  // Transformation des données pour le format "Multi-records" d'Airtable
   const records = guests.map(guest => ({
     fields: {
-      "Personne": guest.name,      // <--- Vérifie le nom exact dans Airtable
-      "Repas": guest.meal,            // <--- Vérifie le nom exact dans Airtable
-      "Restrictions": guest.restrictions || "", 
-      "Groupe": groupName             // <--- Vérifie le nom exact dans Airtable
+      "Nom complet": guest.name,
+      "Repas": guest.meal,
+      "Restrictions": guest.restrictions || "",
+      "Chanson": guest.song || "", // <--- Ajout du mapping vers ta nouvelle colonne
+      "Groupe": groupName
     }
   }));
 
