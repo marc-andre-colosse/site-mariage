@@ -80,7 +80,6 @@
         .guest-entry { padding: 20px 0; border-bottom: 1px dashed #eee; margin-bottom: 10px; }
         .form-group { margin-bottom: 20px; }
         
-        /* Grille pour champs sur la même ligne (Courriel / Cellulaire) */
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
         label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
@@ -100,8 +99,30 @@
             section { padding: 60px 20px; }
             h2 { font-size: 2rem; }
             .form-card { padding: 25px; }
-            .form-row { grid-template-columns: 1fr; gap: 0; } /* Sur mobile, on les remet les uns sous les autres */
+            .form-row { grid-template-columns: 1fr; gap: 0; }
         }
+
+        /* ========================================== */
+        /* MODULE OPTIONNEL : POPUP VIDÉO & KONAMI    */
+        /* ========================================== */
+        #video-lightbox {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        #video-lightbox.active { display: flex; opacity: 1; }
+        .lightbox-content { position: relative; width: 100%; max-width: 800px; padding: 20px; }
+        .lightbox-close {
+            position: absolute; top: -40px; right: 20px; color: white; font-size: 2.5rem;
+            cursor: pointer; font-family: sans-serif; font-weight: bold; opacity: 0.8;
+        }
+        .lightbox-close:hover { opacity: 1; }
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); background: #000;
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        /* ========================================== */
     </style>
 </head>
 <body>
@@ -214,6 +235,12 @@
         </div>
     </section>
 
+    <div id="video-lightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-close" onclick="closeLightbox()">×</div>
+            <div class="video-wrapper" id="lightbox-video-wrapper"></div>
+        </div>
+    </div>
     <footer>
         NOM 1 & NOM 2 — 2026
     </footer>
@@ -323,6 +350,10 @@
                         </div>
                     `;
                     formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // === AJOUT : DÉCLENCHEMENT DU VIDÉO 2 ===
+                    openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/mqyYCYob-8U?si=ltZRVzatMMXJ__tZ&autoplay=1&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
+
                 } else {
                     const resData = await response.json();
                     throw new Error(resData.error || "Erreur lors de l'envoi");
@@ -333,6 +364,41 @@
                 btn.disabled = false;
             }
         });
+
+        // ==========================================
+        // MODULE OPTIONNEL : LOGIQUE KONAMI & POPUP
+        // ==========================================
+        
+        // 1. Fonctions pour ouvrir/fermer le popup
+        function openLightbox(iframeHTML) {
+            document.getElementById('lightbox-video-wrapper').innerHTML = iframeHTML;
+            document.getElementById('video-lightbox').classList.add('active');
+        }
+        
+        function closeLightbox() {
+            document.getElementById('video-lightbox').classList.remove('active');
+            document.getElementById('lightbox-video-wrapper').innerHTML = ''; // Coupe le son à la fermeture
+        }
+
+        // 2. Le Konami Code (Haut, Haut, Bas, Bas, Gauche, Droite, Gauche, Droite, B, A)
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+            
+            if (key === konamiSequence[konamiIndex].toLowerCase()) {
+                konamiIndex++;
+                if (konamiIndex === konamiSequence.length) {
+                    konamiIndex = 0; // Reset
+                    // === AJOUT : DÉCLENCHEMENT DU VIDÉO 1 ===
+                    openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/fPO76Jlnz6c?si=FhKri1eIPUOb71BF&autoplay=1&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+        // ==========================================
     </script>
 </body>
 </html>
