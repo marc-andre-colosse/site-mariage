@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   // Transformation des données pour le format multi-records d'Airtable
   const records = guests.map(guest => ({
     fields: {
-      "Nom complet": guest.name,       // Correspond à ta colonne 'Nom complet'
+      "Personne": guest.name,       // Correspond à ta colonne 'Nom complet'
       "Repas": guest.meal,             // Recevra "Repas 1" ou "Repas 2"
       "Restrictions": guest.restrictions || "",
       "Chanson": guest.song || "",     // Correspond à ta nouvelle colonne 'Chanson'
