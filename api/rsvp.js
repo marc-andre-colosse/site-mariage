@@ -11,14 +11,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Format de données invalide : 'guests' doit être un tableau." });
   }
 
-  // Transformation des données pour le format multi-records d'Airtable
+// Transformation des données pour le format multi-records d'Airtable
   const records = guests.map(guest => ({
     fields: {
-      "Personne": guest.name,          // Ta correction est ici !
-      "Repas": guest.meal,             // Recevra "Repas 1" ou "Repas 2"
+      "Personne": guest.name,          
+      "Repas": guest.meal,             
       "Restrictions": guest.restrictions || "",
-      "Chanson": guest.song || "",     // Ta nouvelle colonne
-      "Groupe": groupName              // Le nom de l'Invité #1 pour lier tout le monde
+      "Chanson": guest.song || "",     
+      "Courriel": guest.email || "",   // <-- Assure-toi que cette ligne y est
+      "Téléphone": guest.phone || "",  // <-- Change "Cellulaire" pour "Téléphone" si c'est le nom de ta colonne
+      "Groupe": groupName              
     }
   }));
 
