@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Nom 1 & Nom 2 | Notre Mariage</title>
+    <title>Anne-Marie & Marc-André | Notre Mariage</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #af946d; /* Or mat */
-            --text: #2c3e50;
-            --bg: #ffffff;
-            --bg-alt: #fdfcf9;
+            /* Palette extraite de ton faire-part */
+            --primary: #526342; /* Le vert olive/sauge */
+            --text: #38462b; /* Un vert très foncé presque noir pour le texte long */
+            --bg: #f6f5ef; /* Le beau crème de fond */
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Lato', sans-serif;
         }
@@ -21,178 +21,180 @@
         * { box-sizing: border-box; }
         body { margin: 0; font-family: var(--font-sans); color: var(--text); background: var(--bg); scroll-behavior: smooth; }
 
-        /* --- SECTION 1 : HERO --- */
+        /* --- STYLES GENERAUX --- */
+        section { padding: 80px 20px; text-align: center; position: relative; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1, h2, h3 { font-family: var(--font-serif); color: var(--primary); font-weight: 400; margin: 0; }
+        
+        .thin-divider { width: 40px; height: 1px; background: var(--primary); margin: 30px auto; opacity: 0.5; }
+        .long-divider { width: 80%; max-width: 400px; height: 1px; background: var(--primary); margin: 40px auto; opacity: 0.4; }
+        .floral-icon { font-size: 1.5rem; color: var(--primary); margin: 30px 0; opacity: 0.8; }
+
+        /* --- TEXTES SPÉCIFIQUES --- */
+        .text-italic-serif { font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; line-height: 1.6; color: var(--primary); }
+        .text-caps-sans { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 700; color: var(--primary); }
+
+        /* --- SECTION 1 : HERO (Page 1 du faire-part) --- */
         #hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=2070') no-repeat center center;
-            background-size: cover;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: white;
-            text-align: center;
             padding: 20px;
+            overflow: hidden;
         }
-        #hero h1 { font-family: var(--font-serif); font-size: clamp(3rem, 10vw, 5rem); margin: 0; font-weight: 400; }
-        #hero p { font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 20px; }
+        
+        #hero h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: 1.1; margin: 20px 0; }
+        #hero h1 span { font-size: 0.6em; font-style: italic; }
 
-        /* --- STYLES GENERAUX --- */
-        section { padding: 100px 20px; text-align: center; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        h2 { font-family: var(--font-serif); font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; font-weight: 400; }
-        .divider { width: 60px; height: 1px; background: var(--primary); margin: 20px auto 40px auto; }
-
-        /* --- SECTION 2 : LE COUPLE --- */
-        .couple-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+        /* Placeholders pour tes images détourées (Fleurs) */
+        .deco-fleur { position: absolute; max-width: 250px; opacity: 0.8; pointer-events: none; z-index: 0; }
+        .top-left { top: -20px; left: -20px; }
+        .bottom-right { bottom: -20px; right: -20px; }
+        
+        /* Bouton RSVP sur le Hero */
+        .btn-outline {
+            display: inline-block; margin-top: 50px; padding: 15px 35px; text-decoration: none;
+            border: 1px solid var(--primary); color: var(--primary); font-family: var(--font-sans);
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: bold;
+            transition: all 0.3s ease; z-index: 2; position: relative;
         }
-        .couple-photo {
-            width: 100%;
-            height: 450px;
-            object-fit: cover;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
+        .btn-outline:hover { background: var(--primary); color: var(--bg); }
 
-        /* --- SECTION 3 : DÉROULEMENT --- */
-        #schedule { background: var(--bg-alt); }
-        .event-item { margin-bottom: 50px; }
-        .time { font-family: var(--font-serif); color: var(--primary); font-size: 1.5rem; margin-bottom: 10px; }
-        .location { font-style: italic; opacity: 0.7; font-size: 0.9rem; margin-top: 5px; }
+        /* --- SECTION 2 : DÉROULEMENT (Page 2 du faire-part) --- */
+        #schedule { padding-top: 100px; }
+        .big-time { font-size: clamp(4rem, 10vw, 6rem); margin: 15px 0; }
 
-        /* --- SECTION 4 : RSVP --- */
+        /* --- SECTION 3 : GALERIE OPTIONNELLE --- */
+        .couple-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
+        .couple-photo { width: 100%; height: 450px; object-fit: cover; border: 1px solid rgba(82, 99, 66, 0.2); padding: 10px; background: var(--bg); }
+
+        /* --- SECTION 4 : RSVP (Papeterie Style) --- */
         #rsvp { padding-bottom: 120px; }
         .form-card {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            background: transparent;
+            padding: 50px 40px;
+            border: 1px solid rgba(82, 99, 66, 0.4); /* Bordure fine au lieu d'ombre */
             max-width: 650px;
             margin: 0 auto;
             text-align: left;
-            transition: all 0.3s ease;
+            position: relative;
         }
-        .guest-entry { padding: 20px 0; border-bottom: 1px dashed #eee; margin-bottom: 10px; }
-        .form-group { margin-bottom: 20px; }
+        .guest-entry { padding: 30px 0; border-bottom: 1px dashed rgba(82, 99, 66, 0.3); margin-bottom: 10px; }
+        .guest-entry:last-of-type { border-bottom: none; }
         
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 25px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
-        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
-        input, select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans); font-size: 1rem; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); }
+        label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
         
-        .btn-add { background: none; border: 1px dashed var(--primary); color: var(--primary); width: 100%; padding: 15px; cursor: pointer; margin-top: 10px; border-radius: 4px; font-weight: bold; letter-spacing: 1px; }
-        .btn-submit { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 4px; margin-top: 30px; font-weight: bold; cursor: pointer; font-size: 1.1rem; letter-spacing: 2px; }
+        /* Inputs style "Ligne sur papier" */
+        input, select { 
+            width: 100%; padding: 10px 0; border: none; border-bottom: 1px solid rgba(82, 99, 66, 0.3); 
+            background: transparent; font-family: var(--font-serif); font-size: 1.1rem; color: var(--text); border-radius: 0;
+        }
+        input:focus, select:focus { outline: none; border-bottom: 2px solid var(--primary); }
+        input::placeholder { color: rgba(56, 70, 43, 0.4); font-style: italic; }
+        
+        .btn-add { background: none; border: 1px dashed var(--primary); color: var(--primary); width: 100%; padding: 15px; cursor: pointer; margin-top: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; }
+        .btn-submit { width: 100%; padding: 20px; background: var(--primary); color: var(--bg); border: none; margin-top: 40px; font-weight: bold; cursor: pointer; font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; transition: opacity 0.3s ease; }
+        .btn-submit:hover { opacity: 0.9; }
         .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
         
         #status-message { margin-top: 20px; text-align: center; font-weight: bold; }
-        .remove-btn { float: right; font-size: 0.75rem; cursor: pointer; color: #e74c3c; letter-spacing: 1px; }
+        .remove-btn { float: right; font-size: 0.7rem; cursor: pointer; color: #8b0000; letter-spacing: 1px; text-transform: uppercase; }
 
-        footer { padding: 60px; text-align: center; opacity: 0.5; font-size: 0.8rem; letter-spacing: 2px; background: var(--bg-alt); }
+        footer { padding: 60px; text-align: center; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--primary); opacity: 0.6; }
 
         @media (max-width: 600px) {
-            section { padding: 60px 20px; }
-            h2 { font-size: 2rem; }
-            .form-card { padding: 25px; }
+            .form-card { padding: 30px 20px; border-left: none; border-right: none; }
             .form-row { grid-template-columns: 1fr; gap: 0; }
+            .top-left { width: 150px; }
+            .bottom-right { width: 150px; }
         }
 
         /* ========================================== */
         /* MODULE OPTIONNEL : POPUP VIDÉO & KONAMI    */
         /* ========================================== */
-        #video-lightbox {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
+        #video-lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         #video-lightbox.active { display: flex; opacity: 1; }
         .lightbox-content { position: relative; width: 100%; max-width: 800px; padding: 20px; }
-        .lightbox-close {
-            position: absolute; top: -40px; right: 20px; color: white; font-size: 2.5rem;
-            cursor: pointer; font-family: sans-serif; font-weight: bold; opacity: 0.8;
-        }
+        .lightbox-close { position: absolute; top: -40px; right: 20px; color: white; font-size: 2.5rem; cursor: pointer; font-family: sans-serif; opacity: 0.6; transition: opacity 0.3s; }
         .lightbox-close:hover { opacity: 1; }
-        .video-wrapper {
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-            border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); background: #000;
-        }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        /* ========================================== */
     </style>
 </head>
 <body>
 
     <section id="hero">
-        <h1>Nom 1 & Nom 2</h1>
-        <p>12 Septembre 2026 — Montréal</p>
-        <a href="#rsvp" style="margin-top:40px; color:white; border: 1px solid white; padding: 15px 35px; text-decoration: none; border-radius: 2px; font-weight: bold; letter-spacing: 2px;">RÉPONDRE À L'INVITATION</a>
-    </section>
+        <img src="" class="deco-fleur top-left" alt="">
+        <img src="" class="deco-fleur bottom-right" alt="">
 
-    <section id="couple">
-        <div class="container">
-            <h2>Nous avons hâte</h2>
-            <div class="divider"></div>
-            <p style="max-width: 600px; margin: 0 auto; line-height: 1.8;">
-                Après de belles années ensemble, nous sommes impatients de célébrer notre amour entourés de nos familles et de nos amis les plus chers.
+        <div style="z-index: 2;">
+            <p class="text-italic-serif" style="margin-bottom: 40px;">C'est avec joie que nous vous<br>invitons à célébrer notre union !</p>
+            
+            <div class="thin-divider"></div>
+            
+            <h1>Anne-Marie<br><span>&</span><br>Marc-André</h1>
+            
+            <div class="thin-divider"></div>
+            
+            <p class="text-caps-sans" style="margin-top: 40px;">12 Septembre 2026</p>
+            <p class="text-italic-serif" style="font-size: 1.1rem; margin-top: 10px;">
+                1685 Chenal-du-Moine<br>Sainte-Anne-de-Sorel
             </p>
-            <div class="couple-grid">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1000" class="couple-photo" alt="Photo Nom 1">
-                    <h3 style="font-family: var(--font-serif); margin-top: 20px;">Nom 1</h3>
-                </div>
-                <div>
-                    <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?q=80&w=1000" class="couple-photo" alt="Photo Nom 2">
-                    <h3 style="font-family: var(--font-serif); margin-top: 20px;">Nom 2</h3>
-                </div>
-            </div>
+
+            <a href="#rsvp" class="btn-outline">RÉPONDRE AU RSVP</a>
         </div>
     </section>
 
     <section id="schedule">
         <div class="container">
-            <h2>Le Jour J</h2>
-            <div class="divider"></div>
+            <p class="text-italic-serif">La cérémonie se fera de façon intime devant nos<br>familles immédiates avant la réception.</p>
             
-            <div class="event-item">
-                <div class="time">15:30</div>
-                <h3 style="margin: 0;">La Cérémonie</h3>
-                <div class="location">Église Saint-X, Montréal</div>
-            </div>
+            <div class="long-divider"></div>
             
-            <div class="event-item">
-                <div class="time">17:30</div>
-                <h3 style="margin: 0;">Le Cocktail</h3>
-                <div class="location">Salle des Réceptions, Rue Sherbrooke</div>
-            </div>
+            <p class="text-caps-sans">Nous vous attendons dès</p>
+            <h2 class="big-time">15h30</h2>
+            <p class="text-caps-sans">Pour un cocktail suivi d'un<br>souper et d'une soirée festive.</p>
             
-            <div class="event-item">
-                <div class="time">19:30</div>
-                <h3 style="margin: 0;">Dîner & Célébrations</h3>
-                <div class="location">Menu festif et danse jusqu'à l'aube</div>
+            <div class="floral-icon">❁</div> <p class="text-italic-serif" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                Afin que vous puissiez profiter pleinement de l'événement, nous avons choisi une réception sans enfants et avec alcool à volonté ! En espérant partager cette journée mémorable avec vous !
+            </p>
+            
+            <div class="long-divider"></div>
+        </div>
+    </section>
+
+    <section id="galerie">
+        <div class="container">
+            <div class="couple-grid">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1000" class="couple-photo" alt="Photo Anne-Marie">
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?q=80&w=1000" class="couple-photo" alt="Photo Marc-André">
+                </div>
             </div>
         </div>
     </section>
 
     <section id="rsvp">
         <div class="container">
-            <h2>Confirmer votre présence</h2>
-            <div class="divider"></div>
-            <p style="margin-bottom: 40px; opacity: 0.8;">Réponse souhaitée avant le 1er Août 2026.</p>
+            <h2 style="font-size: 2rem; margin-bottom: 10px;">RSVP</h2>
+            <p class="text-italic-serif" style="font-size: 1rem; margin-bottom: 40px;">Merci de confirmer votre présence<br>avant le <span style="font-family: var(--font-sans); font-weight: bold; font-style: normal; text-transform: uppercase;">1er Mai 2026</span></p>
             
             <div class="form-card">
                 <form id="wedding-form">
                     <div id="guests-container">
                         <div class="guest-entry">
-                            <h3 style="font-family: var(--font-serif); font-size: 1.3rem; margin-top: 0; color: var(--primary);">Invité #1 (Principal)</h3>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 20px;">Invité #1 (Principal)</h3>
                             
                             <div class="form-group">
                                 <label>Nom complet</label>
-                                <input type="text" class="guest-name" required placeholder="Prénom Nom">
+                                <input type="text" class="guest-name" required placeholder="Prénom et Nom">
                             </div>
                             
                             <div class="form-row">
@@ -209,7 +211,7 @@
                             <div class="form-group">
                                 <label>Choix de repas</label>
                                 <select class="guest-meal" required>
-                                    <option value="">Choisir...</option>
+                                    <option value="" disabled selected>Sélectionner une option...</option>
                                     <option value="Repas 1">Repas 1</option>
                                     <option value="Repas 2">Repas 2</option>
                                 </select>
@@ -217,7 +219,7 @@
                             
                             <div class="form-group">
                                 <label>Allergies / Restrictions</label>
-                                <input type="text" class="guest-rest" placeholder="Ex: Sans gluten, végétarien...">
+                                <input type="text" class="guest-rest" placeholder="Ex: Sans gluten, arachides...">
                             </div>
                             
                             <div class="form-group">
@@ -227,8 +229,8 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn-add" id="add-guest-btn">+ AJOUTER UN INVITÉ</button>
-                    <button type="submit" class="btn-submit" id="submit-btn">ENVOYER MA RÉPONSE</button>
+                    <button type="button" class="btn-add" id="add-guest-btn">+ Ajouter un invité à ce groupe</button>
+                    <button type="submit" class="btn-submit" id="submit-btn">Confirmer notre présence</button>
                     <div id="status-message"></div>
                 </form>
             </div>
@@ -241,30 +243,28 @@
             <div class="video-wrapper" id="lightbox-video-wrapper"></div>
         </div>
     </div>
+
     <footer>
-        NOM 1 & NOM 2 — 2026
+        Anne-Marie & Marc-André — 2026
     </footer>
 
     <script>
         const container = document.getElementById('guests-container');
         const addBtn = document.getElementById('add-guest-btn');
 
-        // Ajouter dynamiquement des invités
         addBtn.addEventListener('click', () => {
             const count = container.querySelectorAll('.guest-entry').length;
             const div = document.createElement('div');
             div.className = 'guest-entry';
-            div.style.marginTop = "30px";
-            div.style.paddingTop = "30px";
             div.innerHTML = `
-                <h3 style="font-family: var(--font-serif); font-size: 1.3rem; margin-top: 0; color: var(--primary);">
+                <h3 style="font-size: 1.3rem; margin-bottom: 20px;">
                     Invité #${count + 1} 
-                    <span class="remove-btn" onclick="this.parentElement.parentElement.remove()">SUPPRIMER</span>
+                    <span class="remove-btn" onclick="this.parentElement.parentElement.remove()">Retirer</span>
                 </h3>
                 
                 <div class="form-group">
                     <label>Nom complet</label>
-                    <input type="text" class="guest-name" required placeholder="Prénom Nom">
+                    <input type="text" class="guest-name" required placeholder="Prénom et Nom">
                 </div>
                 
                 <div class="form-row">
@@ -281,7 +281,7 @@
                 <div class="form-group">
                     <label>Choix de repas</label>
                     <select class="guest-meal" required>
-                        <option value="">Choisir...</option>
+                        <option value="" disabled selected>Sélectionner une option...</option>
                         <option value="Repas 1">Repas 1</option>
                         <option value="Repas 2">Repas 2</option>
                     </select>
@@ -289,7 +289,7 @@
                 
                 <div class="form-group">
                     <label>Allergies / Restrictions</label>
-                    <input type="text" class="guest-rest" placeholder="Ex: Sans gluten, végétarien...">
+                    <input type="text" class="guest-rest" placeholder="Ex: Sans gluten, arachides...">
                 </div>
                 
                 <div class="form-group">
@@ -300,7 +300,6 @@
             container.appendChild(div);
         });
 
-        // Soumission vers l'API
         document.getElementById('wedding-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
@@ -308,10 +307,9 @@
             const formCard = document.querySelector('.form-card');
             
             btn.disabled = true;
-            status.innerText = "Envoi en cours...";
-            status.style.color = "var(--text)";
+            btn.innerText = "ENVOI EN COURS...";
+            status.style.color = "var(--primary)";
 
-            // Récupérer les données de tous les invités
             const guestEntries = container.querySelectorAll('.guest-entry');
             const guests = Array.from(guestEntries).map(el => ({
                 name: el.querySelector('.guest-name').value,
@@ -333,25 +331,23 @@
                 });
 
                 if (response.ok) {
-                    // Message de succès qui remplace le formulaire
+                    // Nouveau message de succès stylisé
                     formCard.innerHTML = `
                         <div style="text-align: center; padding: 40px 20px;">
-                            <div style="font-size: 3.5rem; margin-bottom: 20px;">✨</div>
-                            <h2 style="font-family: var(--font-serif); color: var(--primary); margin-bottom: 15px; font-size: 2.2rem;">C'est confirmé !</h2>
-                            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">
-                                Merci beaucoup ! Vos réponses ont été enregistrées avec succès.<br>
+                            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Merci !</h2>
+                            <p class="text-italic-serif" style="font-size: 1.2rem; margin-bottom: 30px;">
+                                Vos réponses ont été enregistrées avec succès.<br>
                                 Nous avons très hâte de célébrer avec vous.
                             </p>
-                            <div style="border-top: 1px solid #eee; padding-top: 20px;">
-                                <p style="font-style: italic; font-size: 0.9rem; opacity: 0.7;">
-                                    Si vous devez modifier votre réponse, veuillez nous contacter directement.
-                                </p>
-                            </div>
+                            <div class="thin-divider"></div>
+                            <p class="text-caps-sans" style="font-size: 0.75rem; opacity: 0.7; margin-top: 20px;">
+                                Si vous devez modifier votre réponse, veuillez nous contacter directement.
+                            </p>
                         </div>
                     `;
                     formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // === AJOUT : DÉCLENCHEMENT DU VIDÉO 2 (Avec autoplay et mute=0) ===
+                    // Vidéo 2
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/FWXz1h7U0M0?si=SrmSKBwLu8Rpg5R1&autoplay=1&mute=0&start=192" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
 
                 } else {
@@ -362,17 +358,13 @@
                 status.innerText = "Oups : " + err.message;
                 status.style.color = "#e74c3c";
                 btn.disabled = false;
+                btn.innerText = "RÉESSAYER";
             }
         });
 
-        // ==========================================
-        // MODULE OPTIONNEL : LOGIQUE KONAMI & POPUP
-        // ==========================================
-        
-        // Permet de s'assurer que la fenêtre "écoute" le clavier dès le départ
+        // Konami & Lightbox
         window.focus();
 
-        // 1. Fonctions pour ouvrir/fermer le popup
         function openLightbox(iframeHTML) {
             document.getElementById('lightbox-video-wrapper').innerHTML = iframeHTML;
             document.getElementById('video-lightbox').classList.add('active');
@@ -380,32 +372,27 @@
         
         function closeLightbox() {
             document.getElementById('video-lightbox').classList.remove('active');
-            document.getElementById('lightbox-video-wrapper').innerHTML = ''; // Coupe le son à la fermeture
+            document.getElementById('lightbox-video-wrapper').innerHTML = ''; 
         }
 
-        // 2. Le Konami Code optimisé
         const konamiSequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
         let konamiIndex = 0;
 
         document.addEventListener('keydown', (e) => {
-            // On convertit tout en minuscule pour être sûr
             const key = e.key.toLowerCase();
-            
             if (key === konamiSequence[konamiIndex]) {
                 konamiIndex++;
                 if (konamiIndex === konamiSequence.length) {
                     konamiIndex = 0;
-                    // Déclenchement Vidéo 1 (Avec autoplay et mute=0)
+                    // Vidéo 1
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/fPO76Jlnz6c?si=FhKri1eIPUOb71BF&autoplay=1&mute=0&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
                 }
             } else {
-                // Optionnel : on ne reset pas si on appuie sur une touche "morte" (Shift, etc.)
                 if (!['shift', 'control', 'alt'].includes(key)) {
                     konamiIndex = 0;
                 }
             }
         });
-        // ==========================================
     </script>
 </body>
 </html>
