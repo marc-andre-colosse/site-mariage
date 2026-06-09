@@ -55,22 +55,18 @@ export default async function handler(req, res) {
     // ==========================================
     // 2. ENVOI DU COURRIEL DE CONFIRMATION AUX INVITÉS
     // ==========================================
-    
-    // On trouve TOUS les invités du groupe qui ont fourni une adresse courriel
     const guestsWithEmail = guests.filter(g => g.email && g.email.trim() !== '');
 
     if (guestsWithEmail.length > 0) {
-        // On utilise Promise.all pour envoyer tous les courriels en parallèle
         await Promise.all(guestsWithEmail.map(async (recipient) => {
             
-            // On identifie les autres membres de son groupe (s'il y en a)
             const companions = guests.filter(g => g.name !== recipient.name);
             let companionsHtml = '';
             
             if (companions.length > 0) {
                 const companionsList = companions.map(c => `<li style="margin-bottom: 5px;">${c.name}</li>`).join('');
                 companionsHtml = `
-                    <div class="companion-box" style="background-color: rgba(82, 99, 66, 0.05); padding: 15px; border-radius: 5px; margin-bottom: 30px; text-align: left;">
+                    <div class="companion-box" style="background-color: rgba(82, 99, 66, 0.08); padding: 15px; border-radius: 5px; margin-bottom: 30px; text-align: left;">
                         <p class="accent-text" style="font-size: 14px; font-weight: bold; margin-top: 0; color: #526342;">Personne(s) vous accompagnant :</p>
                         <ul class="main-text" style="font-size: 14px; margin-bottom: 0; padding-left: 20px; color: #38462b;">
                             ${companionsList}
@@ -89,29 +85,22 @@ export default async function handler(req, res) {
                         <html lang="fr">
                         <head>
                             <meta charset="UTF-8">
-                            <meta name="color-scheme" content="light dark">
-                            <meta name="supported-color-schemes" content="light dark">
+                            <meta name="color-scheme" content="light">
+                            <meta name="supported-color-schemes" content="light">
                             <style>
-                                /* Fixes globaux pour assurer le contraste */
-                                :root { color-scheme: light dark; }
+                                /* Désactivation du forçage de couleurs sombres par les clients mail */
+                                :root { color-scheme: light; supported-color-schemes: light; }
+                                body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
+                                .main-text { color: #38462b !important; }
+                                .accent-text { color: #526342 !important; }
                                 
                                 @media (prefers-color-scheme: dark) {
-                                    /* Le fond de la page devient sombre pour faire "popper" l'encadré */
-                                    body { background-color: #121212 !important; }
-                                    
-                                    /* --- L'encadré principal GARDE son fond CRÈME (#f6f5ef) --- */
-                                    .content-box { 
-                                        background-color: #f6f5ef !important; 
-                                        border-color: #526342 !important; 
-                                    }
-                                    
-                                    /* Le texte à l'intérieur GARDE sa couleur FONCÉE */
+                                    body { background-color: #f6f5ef !important; }
+                                    .content-box { background-color: #f6f5ef !important; border-color: #526342 !important; }
                                     .main-text { color: #38462b !important; }
                                     .accent-text { color: #526342 !important; }
                                     .divider { background-color: #526342 !important; opacity: 0.5 !important; }
-                                    
-                                    /* La boîte des accompagnateurs s'adapte légèrement mais reste claire */
-                                    .companion-box { background-color: rgba(82, 99, 66, 0.1) !important; }
+                                    .companion-box { background-color: rgba(82, 99, 66, 0.08) !important; }
                                 }
                             </style>
                         </head>
@@ -122,8 +111,15 @@ export default async function handler(req, res) {
                                 <p class="main-text" style="font-size: 16px; line-height: 1.6; margin-bottom: 20px; color: #38462b;">
                                     Nous confirmons la bonne réception de votre RSVP pour notre mariage.<br>
                                     Votre choix de repas (<strong class="accent-text" style="color: #526342;">${recipient.meal}</strong>) a bien été noté.
+                                </p>
                                 
                                 ${companionsHtml}
+
+                                <div style="margin: 30px 0;">
+                                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mariage+d%27Anne-Marie+%26+Marc-Andr%C3%A9&dates=20260912T193000Z%2F20260913T040000Z&details=Nous+avons+tr%C3%A8s+h%C3%A2te+de+c%C3%A9l%C3%A9brer+avec+vous+%21+Informations+et+h%C3%A9bergements+sur+%3A+https%3A%2F%2Fmariage-amma.com&location=1685+Chenal-du-Moine%2C+Sainte-Anne-de-Sorel&sf=true&output=xml" target="_blank" style="background-color: #526342; color: #f6f5ef; padding: 13px 28px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block; letter-spacing: 1px; font-size: 13px; text-transform: uppercase; font-family: sans-serif;">
+                                        📅 Ajouter à mon agenda
+                                    </a>
+                                </div>
                                 
                                 <div class="divider" style="width: 50px; height: 1px; background-color: #526342; margin: 0 auto 30px auto; opacity: 0.5;"></div>
                                 
@@ -143,7 +139,6 @@ export default async function handler(req, res) {
                     `
                 });
             } catch (emailError) {
-                // On log l'erreur pour cet invité spécifique, mais on continue la boucle pour les autres
                 console.error(`Erreur lors de l'envoi du courriel à ${recipient.email}:`, emailError);
             }
         }));
@@ -153,38 +148,38 @@ export default async function handler(req, res) {
     // 3. ENVOI DE LA NOTIFICATION ADMIN (À VOUS)
     // ==========================================
     try {
-        // Construction du résumé HTML pour l'admin
         let adminHtml = `
             <!DOCTYPE html>
             <html lang="fr">
             <head>
                 <meta charset="UTF-8">
-                <meta name="color-scheme" content="light dark">
-                <meta name="supported-color-schemes" content="light dark">
+                <meta name="color-scheme" content="light">
+                <meta name="supported-color-schemes" content="light">
                 <style>
-                    :root { color-scheme: light dark; }
+                    :root { color-scheme: light; supported-color-schemes: light; }
+                    body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
+                    .accent-text { color: #526342 !important; }
+                    
                     @media (prefers-color-scheme: dark) {
-                        body { background-color: #121212 !important; }
-                        .content-box { color: #e0e0e0 !important; }
-                        .accent-text { color: #9ab086 !important; } /* Vert plus clair et lumineux */
-                        .guest-card { background-color: #1e1e1e !important; border: 1px solid #333 !important; }
+                        body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
+                        .accent-text { color: #526342 !important; }
+                        .guest-card { background-color: rgba(82, 99, 66, 0.05) !important; border: 1px solid rgba(82, 99, 66, 0.15) !important; }
                     }
                 </style>
             </head>
-            <body style="margin: 0; padding: 20px; font-family: sans-serif; background-color: #ffffff;">
-                <div class="content-box" style="color: #333; max-width: 600px; margin: 0 auto;">
-                    <h2 class="accent-text" style="color: #526342;">💒 Nouveau RSVP reçu !</h2>
+            <body style="margin: 0; padding: 20px; font-family: sans-serif; background-color: #f6f5ef;">
+                <div class="content-box" style="color: #38462b; max-width: 600px; margin: 0 auto; background-color: #f6f5ef; padding: 30px; border: 1px solid #526342; border-radius: 5px;">
+                    <h2 class="accent-text" style="color: #526342; font-weight: normal; margin-top: 0;">💒 Nouveau RSVP reçu !</h2>
                     <p><strong>Groupe principal :</strong> ${groupName}</p>
                     <p><strong>ID de soumission :</strong> ${submissionId}</p>
-                    <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
+                    <hr style="border: none; border-top: 1px solid rgba(82, 99, 66, 0.3); margin: 20px 0;">
         `;
 
-        // Boucle pour lister les détails de chaque invité
         guests.forEach((guest, index) => {
             adminHtml += `
-                <div class="guest-card" style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-                    <h3 class="accent-text" style="margin-top: 0; color: #526342;">Invité #${index + 1} : ${guest.name}</h3>
-                    <ul style="line-height: 1.6; margin-bottom: 0;">
+                <div class="guest-card" style="background-color: rgba(82, 99, 66, 0.05); padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid rgba(82, 99, 66, 0.15);">
+                    <h3 class="accent-text" style="margin-top: 0; color: #526342; font-weight: normal;">Invité #${index + 1} : ${guest.name}</h3>
+                    <ul style="line-height: 1.6; margin-bottom: 0; color: #38462b; padding-left: 20px;">
                         <li><strong>Courriel :</strong> ${guest.email || '<em>Non spécifié</em>'}</li>
                         <li><strong>Cellulaire :</strong> ${guest.phone || '<em>Non spécifié</em>'}</li>
                         <li><strong>Repas :</strong> ${guest.meal}</li>
@@ -201,7 +196,6 @@ export default async function handler(req, res) {
             </html>
         `;
 
-        // Envoi du courriel à votre adresse
         await resend.emails.send({
             from: 'Système RSVP <info@mariage-amma.com>', 
             to: 'info@mariage-amma.com', 
@@ -212,7 +206,7 @@ export default async function handler(req, res) {
         console.error(`Erreur lors de l'envoi de la notification admin:`, adminEmailError);
     }
 
-    // Tout a fonctionné (Airtable + les envois de courriels)
+    // Tout a fonctionné
     return res.status(200).json({ success: true });
 
   } catch (error) {
