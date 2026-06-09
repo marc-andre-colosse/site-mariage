@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-W7ZV68Z3');</script>
-<!-- End Google Tag Manager -->
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Anne-Marie & Marc-André | Notre Mariage</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -23,6 +21,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             --bg: #f6f5ef; /* Le beau crème de fond */
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Lato', sans-serif;
+            --font-script: 'Great Vibes', cursive; /* Nouvelle police pour le filigrane et les accents */
         }
 
         * { box-sizing: border-box; }
@@ -38,8 +37,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .floral-icon { font-size: 1.5rem; color: var(--primary); margin: 30px 0; opacity: 0.8; }
 
         /* --- TEXTES SPÉCIFIQUES --- */
-        .text-italic-serif { font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; line-height: 1.6; color: var(--primary); }
-        .text-caps-sans { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 700; color: var(--primary); }
+        .text-italic-serif { font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; line-height: 1.8; color: var(--primary); }
+        .text-caps-sans { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; font-weight: 700; color: var(--primary); }
 
         /* --- SECTION 1 : HERO (Page 1 du faire-part) --- */
         #hero {
@@ -49,16 +48,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow: hidden;
+            /* overflow: hidden retiré pour laisser le filigrane s'étendre */
         }
         
-        #hero h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: 1.1; margin: 20px 0; }
-        #hero h1 span { font-size: 0.6em; font-style: italic; }
+        #hero h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: 1.1; margin: 20px 0; letter-spacing: -1px; }
+        /* Style spécifique pour le "&" en calligraphie */
+        #hero h1 span { 
+            font-family: var(--font-script); 
+            font-size: 1.4em; 
+            font-style: normal; 
+            color: var(--primary); 
+            display: inline-block; 
+            line-height: 0.5; 
+            margin: 15px 0; 
+        }
 
-        /* Placeholders pour tes images détourées (Fleurs) */
-        .deco-fleur { position: absolute; max-width: 250px; opacity: 0.8; pointer-events: none; z-index: 0; }
-        .top-left { top: -20px; left: -20px; }
-        .bottom-right { bottom: -20px; right: -20px; }
+        /* --- NOUVEAU : Fleurs Botaniques SVG (Filigrane) --- */
+        .deco-fleur { 
+            position: fixed; /* Reste à l'écran lors du scroll pour un vrai effet papier */
+            max-width: 40vmin; 
+            width: 350px; 
+            opacity: 0.12; /* Très subtil, comme un filigrane */
+            pointer-events: none; 
+            z-index: -1; 
+        }
+        .top-left { top: -5%; left: -5%; transform: rotate(-10deg); }
+        .bottom-right { bottom: -5%; right: -5%; transform: rotate(10deg); }
         
         /* Bouton RSVP sur le Hero */
         .btn-outline {
@@ -82,11 +97,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .form-card {
             background: transparent;
             padding: 50px 40px;
-            border: 1px solid rgba(82, 99, 66, 0.4); /* Bordure fine au lieu d'ombre */
+            border: 1px solid rgba(82, 99, 66, 0.4); 
             max-width: 650px;
             margin: 0 auto;
             text-align: left;
             position: relative;
+            background: var(--bg); /* Assure la lisibilité du formulaire par-dessus le filigrane */
         }
         .guest-entry { padding: 30px 0; border-bottom: 1px dashed rgba(82, 99, 66, 0.3); margin-bottom: 10px; }
         .guest-entry:last-of-type { border-bottom: none; }
@@ -117,8 +133,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         @media (max-width: 600px) {
             .form-card { padding: 30px 20px; border-left: none; border-right: none; }
             .form-row { grid-template-columns: 1fr; gap: 0; }
-            .top-left { width: 150px; }
-            .bottom-right { width: 150px; }
+            .deco-fleur { max-width: 50vmin; } /* Ajustement du filigrane sur mobile */
         }
 
         /* ========================================== */
@@ -134,14 +149,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7ZV68Z3"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <section id="hero">
-        <img src="" class="deco-fleur top-left" alt="">
-        <img src="" class="deco-fleur bottom-right" alt="">
+<svg class="deco-fleur top-left" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M280,400 C280,250 150,150 20,20" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M190,280 C150,220 90,190 40,200" stroke="var(--primary)" stroke-width="1" stroke-linecap="round"/>
+        <path d="M220,320 C150,300 130,240 150,210 C190,220 230,260 220,320 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M160,180 C100,160 80,100 100,70 C140,80 170,120 160,180 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M100,80 C60,60 40,20 60,0 C90,10 110,50 100,80 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M250,260 C290,230 300,170 270,140 C240,170 220,220 250,260 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M170,130 C200,100 210,40 180,10 C150,40 140,90 170,130 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M120,220 C90,250 50,240 30,210 C60,190 100,190 120,220 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+    </svg>
 
+    <svg class="deco-fleur bottom-right" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20,0 C20,150 150,250 280,380" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M110,120 C150,180 210,210 260,200" stroke="var(--primary)" stroke-width="1" stroke-linecap="round"/>
+        <path d="M80,80 C150,100 170,160 150,190 C110,180 70,140 80,80 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M140,220 C200,240 220,300 200,330 C160,320 130,280 140,220 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M200,320 C240,340 260,380 240,400 C210,390 190,350 200,320 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M50,140 C10,170 0,230 30,260 C60,230 80,180 50,140 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M130,270 C100,300 90,360 120,390 C150,360 160,310 130,270 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+        <path d="M180,180 C210,150 250,160 270,190 C240,210 200,210 180,180 Z" fill="var(--primary)" fill-opacity="0.2" stroke="var(--primary)" stroke-width="0.5"/>
+    </svg>
+
+    <section id="hero">
         <div style="z-index: 2;">
             <p class="text-italic-serif" style="margin-bottom: 40px;">C'est avec joie que nous vous<br>invitons à célébrer notre union !</p>
             
