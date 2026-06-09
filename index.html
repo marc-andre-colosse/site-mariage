@@ -116,23 +116,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .accom-card { 
             display: flex; flex-direction: column; justify-content: flex-start;
             text-decoration: none; color: var(--text); background: transparent; 
-            border: 1px solid rgba(82, 99, 66, 0.3); padding: 0 0 30px 0; /* padding ajusté pour ne pas compresser l'image */
+            border: 1px solid rgba(82, 99, 66, 0.3); padding: 0 0 30px 0;
             transition: all 0.3s ease; cursor: pointer; text-align: center;
-            border-radius: 5px; /* arrondi ajouté pour matcher l'image */
-            overflow: hidden; /* nécessaire pour que l'image suive l'arrondi de la carte */
+            border-radius: 5px; 
+            overflow: hidden; 
         }
         .accom-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(82, 99, 66, 0.1); }
         
-        /* STYLE CSS POUR L'IMAGE DANS LA CARTE */
         .card-img {
-            width: 100%; /* l'image prend toute la largeur de la carte */
-            height: 160px; /* hauteur fixe pour uniformiser */
-            object-fit: cover; /* évite de déformer l'image en la recadrant proprement */
-            margin-bottom: 20px; /* espace avant le titre */
+            width: 100%; 
+            height: 160px; 
+            object-fit: cover; 
+            margin-bottom: 20px; 
         }
 
-        .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; padding: 0 20px; /* padding interne ajouté */ }
-        .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; padding: 0 20px; /* padding interne ajouté */ }
+        .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; padding: 0 20px; }
+        .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; padding: 0 20px; }
         .accom-card .distance-info { font-size: 0.85rem; color: var(--primary); opacity: 0.9; margin-top: 10px; font-weight: bold; letter-spacing: 0.5px; }
         .accom-card .price { font-weight: bold; margin-top: 15px; }
         .accom-card .note { font-style: italic; color: var(--primary); font-size: 0.8rem; margin-top: 15px; }
@@ -152,9 +151,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         #video-lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         #video-lightbox.active { display: flex; opacity: 1; }
         .lightbox-content { position: relative; width: 100%; max-width: 800px; padding: 20px; }
-        .lightbox-close { position: absolute; top: -40px; right: 20px; color: white; font-size: 2.5rem; cursor: pointer; font-family: sans-serif; opacity: 0.6; transition: opacity 0.3s; }
+        .lightbox-close { position: absolute; top: -40px; right: 20px; color: white; font-size: 2.5rem; cursor: pointer; font-family: sans-serif; opacity: 0.6; transition: opacity 0.3s; z-index: 10; }
         .lightbox-close:hover { opacity: 1; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
     </style>
 </head>
@@ -417,7 +416,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     `;
                     formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // Vidéo 2 - Modifiée selon votre demande
+                    // Nouvelle vidéo avec le mode Screensaver rebondissant
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/Gs069dndIYk?si=ijY9cCzpeFOBYMOa&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
 
                 } else {
@@ -432,17 +431,95 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         });
 
-        // Konami & Lightbox
+        // ==========================================
+        // LOGIQUE POPUP VIDÉO & KONAMI & SCREENSAVER
+        // ==========================================
         window.focus();
+
+        let bounceReq;
+        let isBouncing = false;
+        let bounceX = 0;
+        let bounceY = 0;
+        let dx = 3; // Vitesse de déplacement X
+        let dy = 3; // Vitesse de déplacement Y
 
         function openLightbox(iframeHTML) {
             document.getElementById('lightbox-video-wrapper').innerHTML = iframeHTML;
             document.getElementById('video-lightbox').classList.add('active');
+            
+            // Démarrer l'effet screensaver
+            isBouncing = true;
+            dx = Math.random() > 0.5 ? 3 : -3;
+            dy = Math.random() > 0.5 ? 3 : -3;
+            animateBounce();
         }
         
         function closeLightbox() {
             document.getElementById('video-lightbox').classList.remove('active');
             document.getElementById('lightbox-video-wrapper').innerHTML = ''; 
+            
+            // Arrêter le rebond et réinitialiser
+            isBouncing = false;
+            cancelAnimationFrame(bounceReq);
+            const el = document.querySelector('.lightbox-content');
+            el.style.position = 'relative';
+            el.style.left = '';
+            el.style.top = '';
+        }
+
+        function animateBounce() {
+            if (!isBouncing) return;
+            
+            const el = document.querySelector('.lightbox-content');
+            
+            // On s'assure que ça ne rebondit que sur les grands écrans (Ordinateurs)
+            if (window.innerWidth <= 992) {
+                // Figer au centre pour tablettes et mobiles
+                el.style.position = 'relative';
+                el.style.left = '';
+                el.style.top = '';
+            } else {
+                // Initialisation de la position de départ si ce n'est pas fait
+                if (el.style.position !== 'absolute') {
+                    el.style.position = 'absolute';
+                    bounceX = (window.innerWidth - el.offsetWidth) / 2;
+                    bounceY = (window.innerHeight - el.offsetHeight) / 2;
+                }
+
+                let width = el.offsetWidth;
+                let height = el.offsetHeight;
+                let winWidth = window.innerWidth;
+                let winHeight = window.innerHeight;
+                
+                // Marge pour s'assurer que le bouton de fermeture "X" n'est jamais caché hors de l'écran (top: -40px)
+                const topMargin = 50; 
+
+                // Collision X (Droite et Gauche)
+                if (bounceX + width >= winWidth) {
+                    dx = -Math.abs(dx);
+                    bounceX = winWidth - width;
+                } else if (bounceX <= 0) {
+                    dx = Math.abs(dx);
+                    bounceX = 0;
+                }
+
+                // Collision Y (Bas et Haut)
+                if (bounceY + height >= winHeight) {
+                    dy = -Math.abs(dy);
+                    bounceY = winHeight - height;
+                } else if (bounceY <= topMargin) {
+                    dy = Math.abs(dy);
+                    bounceY = topMargin;
+                }
+
+                bounceX += dx;
+                bounceY += dy;
+
+                el.style.left = bounceX + 'px';
+                el.style.top = bounceY + 'px';
+            }
+
+            bounceReq = requestAnimationFrame(animateBounce);
         }
 
         const konamiSequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
@@ -454,7 +531,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 konamiIndex++;
                 if (konamiIndex === konamiSequence.length) {
                     konamiIndex = 0;
-                    // Vidéo 1
+                    // Vidéo Konami
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/fPO76Jlnz6c?si=FhKri1eIPUOb71BF&autoplay=1&mute=0&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
                 }
             } else {
