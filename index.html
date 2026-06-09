@@ -114,10 +114,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         #hebergement { padding-top: 40px; padding-bottom: 120px; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 40px; }
         .accom-card { 
-            display: flex; flex-direction: column; justify-content: center;
+            display: flex; flex-direction: column; justify-content: flex-start;
             text-decoration: none; color: var(--text); background: transparent; 
             border: 1px solid rgba(82, 99, 66, 0.3); padding: 30px 20px; 
-            transition: all 0.3s ease; cursor: pointer;
+            transition: all 0.3s ease; cursor: pointer; text-align: center;
         }
         .accom-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(82, 99, 66, 0.1); }
         .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; }
@@ -272,18 +272,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <p class="note">*À la réservation, mentionner que vous faites partie du groupe d’Anne-Marie Simard</p>
                 </a>
                 
-                <a href="#" target="_blank" class="accom-card">
-                    <h3>Établissement 2</h3>
-                    <p>Adresse de l'établissement<br>Ville</p>
-                    <p class="price">Prix estimé</p>
-                    <p class="note">*Note spéciale si applicable</p>
+                <a href="https://domainedelarchipel.com" target="_blank" class="accom-card">
+                    <h3>Domaine de l’Archipel</h3>
+                    <p>2786 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
+                    <p class="price">Environ 200$ occupation double</p>
+                    <p class="note">*Chalets de 3 à 12 occupants</p>
                 </a>
                 
-                <a href="#" target="_blank" class="accom-card">
-                    <h3>Établissement 3</h3>
-                    <p>Adresse de l'établissement<br>Ville</p>
-                    <p class="price">Prix estimé</p>
-                    <p class="note">*Note spéciale si applicable</p>
+                <a href="https://campingchenaldumoine.com" target="_blank" class="accom-card">
+                    <h3>Camping du Chenal-du-Moine</h3>
+                    <p>1686 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
+                    <p class="price">Environ 50$ occupation double</p>
                 </a>
             </div>
         </div>
@@ -384,7 +383,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 });
 
                 if (response.ok) {
-                    // Nouveau message de succès stylisé
+                    // Message de succès stylisé
                     formCard.innerHTML = `
                         <div style="text-align: center; padding: 40px 20px;">
                             <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Merci !</h2>
