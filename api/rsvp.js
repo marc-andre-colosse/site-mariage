@@ -1,4 +1,4 @@
-import { Resend } from 'resend';
+const { Resend } = require('resend');
 
 // Initialisation de Resend avec ta clé API (définie dans Vercel)
 const resend = new Resend(process.env.RESEND_API_KEY);
