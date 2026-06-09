@@ -634,4 +634,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         h.angle += h.spin;
 
                         // Physique spéciale pour les cœurs issus d'explosions
-                        if (
+                        if (h.isExplosion) {
+                            h.vy += 0.15; // Gravité plus forte
+                            h.vx *= 0.97; // Résistance de l'air
+                        }
+
+                        let col = Math.floor(h.x / colWidth);
+                        if (col < 0) col = 0;
+                        if (col >= stacks.length) col = stacks.length - 1;
+
+                        let heartBottomY = h.y + (50 * (h.size / 30));
+                        if (heartBottomY >= height - stacks[col]) {
+                            h.y = height - stacks[col] - (50 * (h.size / 30));
+                            h.stopped = true;
+                            stacks[col] += (30 * (h.size / 30)); 
+                            
+                            if(col > 0) stacks[col-1] += 5;
+                            if(col < stacks.length - 1) stacks[col+1] += 5;
+                        }
+                    }
+                    drawHeart(ctx, h.x, h.y, h.size, h.color, h.stopped ? h.angle : 0); 
+                });
+
+                heartRainAnimationId = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function stopHeartRain() {
+            heartRainActive = false;
+            cancelAnimationFrame(heartRainAnimationId);
+            const canvas = document.getElementById('heart-canvas');
+            if (canvas) {
+                canvas.remove();
+            }
+        }
+    </script>
+</body>
+</html>
