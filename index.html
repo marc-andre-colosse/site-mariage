@@ -76,7 +76,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .couple-photo { width: 100%; height: 450px; object-fit: cover; border: 1px solid rgba(82, 99, 66, 0.2); padding: 10px; background: var(--bg); }
 
         /* --- SECTION 4 : RSVP (Papeterie Style) --- */
-        #rsvp { padding-bottom: 120px; }
+        #rsvp { padding-bottom: 80px; }
         .form-card {
             background: transparent;
             padding: 50px 40px;
@@ -109,6 +109,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         
         #status-message { margin-top: 20px; text-align: center; font-weight: bold; }
         .remove-btn { float: right; font-size: 0.7rem; cursor: pointer; color: #8b0000; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* --- SECTION 5 : HÉBERGEMENT (Où dormir) --- */
+        #hebergement { padding-top: 40px; padding-bottom: 120px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 40px; }
+        .accom-card { 
+            display: flex; flex-direction: column; justify-content: center;
+            text-decoration: none; color: var(--text); background: transparent; 
+            border: 1px solid rgba(82, 99, 66, 0.3); padding: 30px 20px; 
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .accom-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(82, 99, 66, 0.1); }
+        .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; }
+        .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; }
+        .accom-card .price { font-weight: bold; margin-top: 15px; }
+        .accom-card .note { font-style: italic; color: var(--primary); font-size: 0.8rem; margin-top: 15px; }
 
         footer { padding: 60px; text-align: center; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--primary); opacity: 0.6; }
 
@@ -210,7 +225,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 </div>
                                 <div class="form-group">
                                     <label>Cellulaire</label>
-                                    <input type="tel" class="guest-phone" placeholder="514-000-0000">
+                                    <input type="tel" class="guest-phone" placeholder="514-000-0000" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" title="Veuillez respecter le format xxx-xxx-xxxx">
                                 </div>
                             </div>
 
@@ -240,6 +255,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <button type="submit" class="btn-submit" id="submit-btn">Confirmer notre présence</button>
                     <div id="status-message"></div>
                 </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="hebergement">
+        <div class="container">
+            <h2 style="font-size: 2rem; margin-bottom: 20px;">Où dormir</h2>
+            <div class="thin-divider"></div>
+            
+            <div class="cards-grid">
+                <a href="https://www.hoteldelarive.com/" target="_blank" class="accom-card">
+                    <h3>Hôtel de la Rive</h3>
+                    <p>165 Chemin Ste-Anne<br>Sorel-Tracy</p>
+                    <p class="price">Environ 250$ occupation double</p>
+                    <p class="note">*À la réservation, mentionner que vous faites partie du groupe d’Anne-Marie Simard</p>
+                </a>
+                
+                <a href="#" target="_blank" class="accom-card">
+                    <h3>Établissement 2</h3>
+                    <p>Adresse de l'établissement<br>Ville</p>
+                    <p class="price">Prix estimé</p>
+                    <p class="note">*Note spéciale si applicable</p>
+                </a>
+                
+                <a href="#" target="_blank" class="accom-card">
+                    <h3>Établissement 3</h3>
+                    <p>Adresse de l'établissement<br>Ville</p>
+                    <p class="price">Prix estimé</p>
+                    <p class="note">*Note spéciale si applicable</p>
+                </a>
             </div>
         </div>
     </section>
@@ -281,7 +326,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                     <div class="form-group">
                         <label>Cellulaire</label>
-                        <input type="tel" class="guest-phone" placeholder="514-000-0000">
+                        <input type="tel" class="guest-phone" placeholder="514-000-0000" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" title="Veuillez respecter le format xxx-xxx-xxxx">
                     </div>
                 </div>
 
