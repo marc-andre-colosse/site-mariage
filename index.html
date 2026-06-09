@@ -110,31 +110,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* --- SECTION 5 : HÉBERGEMENT (Où dormir) --- */
         #hebergement { padding-top: 20px; padding-bottom: 120px; } 
-
-        /* --- STYLE POUR LA CARTE GOOGLE MAPS --- */
-        .map-wrapper {
-            max-width: 1100px;
-            margin: 0 auto 50px auto;
-            border-radius: 5px;
-            overflow: hidden;
-            border: 1px solid rgba(82, 99, 66, 0.3);
-        }
-
-        .map-wrapper iframe {
-            width: 100%;
-            height: 350px;
-            display: block; 
-            border: none;
-            transition: filter 0.3s ease;
-        }
-
-        /* Le filtre magique pour le Dark Mode */
-        @media (prefers-color-scheme: dark) {
-            .map-wrapper iframe {
-                filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%);
-            }
-        }
-
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 40px; } 
         .accom-card { 
             display: flex; flex-direction: column; justify-content: flex-start;
@@ -166,7 +141,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .form-row { grid-template-columns: 1fr; gap: 0; }
             .top-left { width: 150px; }
             .bottom-right { width: 150px; }
-            .map-wrapper iframe { height: 250px; } /* Plus petit sur mobile */
         }
 
         /* ========================================== */
@@ -180,19 +154,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; z-index: 10000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* TEXTE DISCO AJUSTÉ */
+        /* NOUVEAU STYLE : TEXTE DISCO AJUSTÉ */
         .disco-overlay {
             position: absolute;
-            top: -5px; 
+            top: -5px; /* <-- NOUVELLE VALEUR : Rapproche le texte du haut de la vidéo */
             left: 50%;
-            transform: translate(-50%, -100%); 
+            transform: translate(-50%, -100%); /* <-- NOUVELLE VALEUR : Centre et élève par rapport au bas */
             font-family: var(--font-sans);
             font-size: clamp(1.2rem, 4vw, 2.5rem);
             font-weight: 900;
             color: white;
             white-space: nowrap;
-            z-index: 10002; 
-            pointer-events: none; 
+            z-index: 10002; /* Au-dessus de la vidéo */
+            pointer-events: none; /* Ne bloque pas les clics sur la vidéo */
             animation: neonGlow 1.5s infinite alternate;
         }
 
@@ -319,20 +293,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h2 style="font-size: 2rem; margin-bottom: 20px;">Où dormir</h2>
             <div class="thin-divider"></div>
             
-            <div class="map-wrapper">
-                <iframe 
-                    src="https://maps.google.com/maps?q=1685%20Chenal-du-Moine,%20Sainte-Anne-de-Sorel&t=&z=14&ie=UTF8&iwloc=&output=embed" 
-                    width="100%" 
-                    height="100%" 
-                    frameborder="0" 
-                    scrolling="no" 
-                    marginheight="0" 
-                    marginwidth="0"
-                    title="Carte de l'emplacement du mariage"
-                    loading="lazy">
-                </iframe>
-            </div>
-
             <div class="cards-grid">
                 <a href="https://www.hoteldelarive.com/" target="_blank" class="accom-card">
                     <img src="/assets/images/hotel_rive.webp" alt="Hôtel de la Rive" class="card-img">
@@ -461,6 +421,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 });
 
                 if (response.ok) {
+                    // Message de succès stylisé
                     formCard.innerHTML = `
                         <div style="text-align: center; padding: 40px 20px;">
                             <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Merci !</h2>
@@ -476,6 +437,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     `;
                     formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
+                    // Vidéo avec l'effet disco
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/Gs069dndIYk?si=ijY9cCzpeFOBYMOa&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>', true);
 
                 } else {
@@ -523,6 +485,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 konamiIndex++;
                 if (konamiIndex === konamiSequence.length) {
                     konamiIndex = 0;
+                    // Konami n'active que la vidéo de base, sans le texte de la date, mais on peut mettre la pluie de cœurs !
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/fPO76Jlnz6c?si=FhKri1eIPUOb71BF&autoplay=1&mute=0&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>', false);
                     startHeartRain();
                 }
@@ -548,7 +511,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             canvas.style.width = '100vw';
             canvas.style.height = '100vh';
             canvas.style.pointerEvents = 'none'; 
-            canvas.style.zIndex = '10001'; 
+            canvas.style.zIndex = '10001'; // <-- NOUVEAU Z-INDEX (DEVANT LE FOND NOIR ET LA VIDÉO)
             document.body.appendChild(canvas);
 
             const ctx = canvas.getContext('2d');
@@ -568,7 +531,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             resize();
 
             let hearts = [];
-            let fireworks = []; 
+            let fireworks = []; // Système de feux d'artifice
             const colors = ['#526342', '#e74c3c', '#ffb8b8', '#fdfaf5'];
 
             function createHeart() {
@@ -583,7 +546,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     stopped: false,
                     angle: Math.random() * Math.PI * 2,
                     spin: (Math.random() - 0.5) * 0.05,
-                    isExplosion: false 
+                    isExplosion: false // Distinction pour la physique
                 });
             }
 
@@ -609,34 +572,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 if (!heartRainActive) return;
                 ctx.clearRect(0, 0, width, height);
 
+                // 1. Génération de pluie classique
                 if (Math.random() < 0.10) { 
                     createHeart();
                 }
 
+                // 2. Génération de nouveaux feux d'artifice au hasard
                 if (Math.random() < 0.04) {
                     fireworks.push({
                         x: Math.random() * width,
                         y: height,
                         vx: (Math.random() - 0.5) * 6,
-                        vy: -(Math.random() * 10 + 10), 
+                        vy: -(Math.random() * 10 + 10), // Propulse vers le haut
                         color: colors[Math.floor(Math.random() * colors.length)]
                     });
                 }
 
+                // 3. Mise à jour des feux d'artifice
                 for (let i = fireworks.length - 1; i >= 0; i--) {
                     let fw = fireworks[i];
                     fw.x += fw.vx;
                     fw.y += fw.vy;
-                    fw.vy += 0.2; 
+                    fw.vy += 0.2; // Gravité sur la roquette
 
+                    // Dessine la fusée brillante
                     ctx.beginPath();
                     ctx.arc(fw.x, fw.y, 4, 0, Math.PI * 2);
                     ctx.fillStyle = fw.color;
                     ctx.shadowBlur = 15;
                     ctx.shadowColor = fw.color;
                     ctx.fill();
-                    ctx.shadowBlur = 0; 
+                    ctx.shadowBlur = 0; // Remet à zéro pour les autres éléments
 
+                    // Explosion au sommet (quand la vitesse redevient positive)
                     if (fw.vy >= -2) {
                         for (let j = 0; j < 25; j++) {
                             let angle = Math.random() * Math.PI * 2;
@@ -646,27 +614,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 y: fw.y,
                                 vx: Math.cos(angle) * speed,
                                 vy: Math.sin(angle) * speed - 2,
-                                size: Math.random() * 8 + 8, 
+                                size: Math.random() * 8 + 8, // Des cœurs un peu plus petits
                                 color: colors[Math.floor(Math.random() * colors.length)],
                                 stopped: false,
                                 angle: Math.random() * Math.PI * 2,
                                 spin: (Math.random() - 0.5) * 0.2,
-                                isExplosion: true 
+                                isExplosion: true // Active la gravité réaliste pour l'éclat
                             });
                         }
                         fireworks.splice(i, 1);
                     }
                 }
 
+                // 4. Mise à jour des cœurs (Pluie + Éclats)
                 hearts.forEach(h => {
                     if (!h.stopped) {
                         h.x += h.vx;
                         h.y += h.vy;
                         h.angle += h.spin;
 
+                        // Physique spéciale pour les cœurs issus d'explosions
                         if (h.isExplosion) {
-                            h.vy += 0.15; 
-                            h.vx *= 0.97; 
+                            h.vy += 0.15; // Gravité plus forte
+                            h.vx *= 0.97; // Résistance de l'air
                         }
 
                         let col = Math.floor(h.x / colWidth);
