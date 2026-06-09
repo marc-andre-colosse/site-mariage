@@ -53,17 +53,13 @@ export default async function handler(req, res) {
     }
 
     // ==========================================
-    // 2. ENVOI DU COURRIEL DE CONFIRMATION (RESEND)
+    // 2. ENVOI DU COURRIEL DE CONFIRMATION AUX INVITÉS
     // ==========================================
-    
-    // On trouve TOUS les invités du groupe qui ont fourni une adresse courriel
     const guestsWithEmail = guests.filter(g => g.email && g.email.trim() !== '');
 
     if (guestsWithEmail.length > 0) {
-        // On utilise Promise.all pour envoyer tous les courriels en parallèle
         await Promise.all(guestsWithEmail.map(async (recipient) => {
             
-            // On identifie les autres membres de son groupe (s'il y en a)
             const companions = guests.filter(g => g.name !== recipient.name);
             let companionsHtml = '';
             
@@ -111,10 +107,51 @@ export default async function handler(req, res) {
                     `
                 });
             } catch (emailError) {
-                // On log l'erreur pour cet invité spécifique, mais on continue la boucle pour les autres
                 console.error(`Erreur lors de l'envoi du courriel à ${recipient.email}:`, emailError);
             }
         }));
+    }
+
+    // ==========================================
+    // 3. ENVOI DE LA NOTIFICATION ADMIN (À VOUS)
+    // ==========================================
+    try {
+        // Construction du résumé HTML pour l'admin
+        let adminHtml = `
+            <div style="font-family: sans-serif; color: #333; max-width: 600px;">
+                <h2 style="color: #526342;">💒 Nouveau RSVP reçu !</h2>
+                <p><strong>Groupe principal :</strong> ${groupName}</p>
+                <p><strong>ID de soumission :</strong> ${submissionId}</p>
+                <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
+        `;
+
+        // Boucle pour lister les détails de chaque invité
+        guests.forEach((guest, index) => {
+            adminHtml += `
+                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                    <h3 style="margin-top: 0; color: #526342;">Invité #${index + 1} : ${guest.name}</h3>
+                    <ul style="line-height: 1.6; margin-bottom: 0;">
+                        <li><strong>Courriel :</strong> ${guest.email || '<em>Non spécifié</em>'}</li>
+                        <li><strong>Cellulaire :</strong> ${guest.phone || '<em>Non spécifié</em>'}</li>
+                        <li><strong>Repas :</strong> ${guest.meal}</li>
+                        <li><strong>Allergies / Restrictions :</strong> ${guest.restrictions || '<em>Aucune</em>'}</li>
+                        <li><strong>Chanson :</strong> ${guest.song || '<em>Aucune</em>'}</li>
+                    </ul>
+                </div>
+            `;
+        });
+
+        adminHtml += `</div>`;
+
+        // Envoi du courriel à votre adresse
+        await resend.emails.send({
+            from: 'Système RSVP <info@mariage-amma.com>', 
+            to: 'info@mariage-amma.com', // C'est ici que tu vas recevoir l'alerte
+            subject: `🎉 Nouveau RSVP : ${groupName} (${guests.length} personne(s))`,
+            html: adminHtml
+        });
+    } catch (adminEmailError) {
+        console.error(`Erreur lors de l'envoi de la notification admin:`, adminEmailError);
     }
 
     // Tout a fonctionné (Airtable + les envois de courriels)
