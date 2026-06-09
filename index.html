@@ -1,48 +1,45 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-W7ZV68Z3');</script>
-<meta charset="UTF-8">
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Anne-Marie & Marc-André | Notre Mariage</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
             /* Palette extraite de ton faire-part */
-            --creme: #fdfaf5; /* Le fond de base plus clair */
-            --olive: #566c4a; /* Le vert olive/sauge pour texte et dessins */
-            --primary: #526342; /* Conserver le vert olive original pour les éléments existants */
+            --primary: #526342; /* Le vert olive/sauge */
             --text: #38462b; /* Un vert très foncé presque noir pour le texte long */
-            --font-serif: 'Playfair Display', serif; /* Conserver Playfair pour l'élégance littéraire */
-            --font-sans: 'Montserrat', sans-serif; /* Remplacer par Montserrat pour la police droite et fine */
-            --font-lato: 'Lato', sans-serif; /* Conserver Lato pour les éléments de formulaire existants */
+            --bg: #f6f5ef; /* Le beau crème de fond */
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Lato', sans-serif;
         }
 
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: var(--font-lato); color: var(--text); background: var(--creme); scroll-behavior: smooth; position: relative; }
+        body { margin: 0; font-family: var(--font-sans); color: var(--text); background: var(--bg); scroll-behavior: smooth; }
 
         /* --- STYLES GENERAUX --- */
         section { padding: 80px 20px; text-align: center; position: relative; }
-        .container { max-width: 800px; margin: 0 auto; position: relative; z-index: 2; /* Pour que le contenu soit au-dessus des illustrations de coin */ }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1, h2, h3 { font-family: var(--font-serif); color: var(--primary); font-weight: 400; margin: 0; }
         
-        /* h1, h2, h3 reformatés pour Montserrat */
-        h1, h2, h3 { font-family: var(--font-sans); color: var(--olive); font-weight: 300; margin: 0; }
-        
-        .thin-divider { width: 40px; height: 1px; background: var(--olive); margin: 30px auto; opacity: 0.5; }
-        .long-divider { width: 80%; max-width: 400px; height: 1px; background: var(--olive); margin: 40px auto; opacity: 0.4; }
-        .floral-icon { font-size: 1.5rem; color: var(--olive); margin: 30px 0; opacity: 0.8; }
+        .thin-divider { width: 40px; height: 1px; background: var(--primary); margin: 30px auto; opacity: 0.5; }
+        .long-divider { width: 80%; max-width: 400px; height: 1px; background: var(--primary); margin: 40px auto; opacity: 0.4; }
+        .floral-icon { font-size: 1.5rem; color: var(--primary); margin: 30px 0; opacity: 0.8; }
 
         /* --- TEXTES SPÉCIFIQUES --- */
-        /* text-italic-serif conservé pour Playfair, comme l'intro littéraire */
-        .text-italic-serif { font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; line-height: 1.8; color: var(--olive); letter-spacing: 0.02em; }
-        .text-caps-sans { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 2.5px; font-size: 0.85rem; font-weight: 400; color: var(--olive); }
+        .text-italic-serif { font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; line-height: 1.6; color: var(--primary); }
+        .text-caps-sans { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 700; color: var(--primary); }
 
         /* --- SECTION 1 : HERO (Page 1 du faire-part) --- */
         #hero {
@@ -52,65 +49,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             justify-content: center;
             align-items: center;
             padding: 20px;
-            text-align: center;
+            overflow: hidden;
         }
         
-        #hero h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: 1.1; margin: 20px 0; font-family: var(--font-sans); text-transform: uppercase; font-weight: 300; }
-        /* Raffinement pour le "&" avec Montserrat */
-        #hero h1 span { 
-            font-size: 0.6em; 
-            font-style: normal; 
-            display: block;
-            margin: 0.2em 0;
-            line-height: 1;
-        }
+        #hero h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: 1.1; margin: 20px 0; }
+        #hero h1 span { font-size: 0.6em; font-style: italic; }
 
-        /* --- NOUVEAU : Planches Botaniques Classiques (Background) --- */
-        .botanical-corner { 
-            position: fixed; 
-            pointer-events: none; 
-            z-index: 1; /* Derrière le contenu */
-            opacity: 0.8; /* Visible, pas un filigrane fantomatique */
-            max-width: 35vmin;
-            width: auto;
-            fill: none;
-            stroke: var(--olive);
-            stroke-width: 0.6;
-            stroke-linecap: round;
-        }
-        .top-left { top: -2vmin; left: -2vmin; transform: scale(1.1); }
-        .bottom-right { bottom: -2vmin; right: -2vmin; transform: scale(1.1) rotate(180deg); }
+        /* Placeholders pour tes images détourées (Fleurs) */
+        .deco-fleur { position: absolute; max-width: 250px; opacity: 0.8; pointer-events: none; z-index: 0; }
+        .top-left { top: -20px; left: -20px; }
+        .bottom-right { bottom: -20px; right: -20px; }
         
         /* Bouton RSVP sur le Hero */
         .btn-outline {
             display: inline-block; margin-top: 50px; padding: 15px 35px; text-decoration: none;
-            border: 1px solid var(--olive); color: var(--olive); font-family: var(--font-sans);
-            text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 400;
+            border: 1px solid var(--primary); color: var(--primary); font-family: var(--font-sans);
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: bold;
             transition: all 0.3s ease; z-index: 2; position: relative;
         }
-        .btn-outline:hover { background: var(--olive); color: var(--creme); }
+        .btn-outline:hover { background: var(--primary); color: var(--bg); }
 
         /* --- SECTION 2 : DÉROULEMENT (Page 2 du faire-part) --- */
         #schedule { padding-top: 100px; }
-        /* Style raffiné pour Playfair sur schedule */
-        #schedule .container p.text-italic-serif { max-width: 650px; }
-        .big-time { font-size: clamp(4rem, 10vw, 6rem); margin: 15px 0; font-family: var(--font-serif); }
+        .big-time { font-size: clamp(4rem, 10vw, 6rem); margin: 15px 0; }
 
         /* --- SECTION 3 : GALERIE OPTIONNELLE --- */
         .couple-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
-        .couple-photo { width: 100%; height: 450px; object-fit: cover; border: 1px solid rgba(82, 99, 66, 0.2); padding: 10px; background: var(--creme); }
+        .couple-photo { width: 100%; height: 450px; object-fit: cover; border: 1px solid rgba(82, 99, 66, 0.2); padding: 10px; background: var(--bg); }
 
         /* --- SECTION 4 : RSVP (Papeterie Style) --- */
         #rsvp { padding-bottom: 120px; }
         .form-card {
             background: transparent;
             padding: 50px 40px;
-            border: 1px solid rgba(82, 99, 66, 0.4); 
+            border: 1px solid rgba(82, 99, 66, 0.4); /* Bordure fine au lieu d'ombre */
             max-width: 650px;
             margin: 0 auto;
             text-align: left;
             position: relative;
-            background: var(--creme); /* Assure la lisibilité sur le fond crème */
         }
         .guest-entry { padding: 30px 0; border-bottom: 1px dashed rgba(82, 99, 66, 0.3); margin-bottom: 10px; }
         .guest-entry:last-of-type { border-bottom: none; }
@@ -118,30 +94,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .form-group { margin-bottom: 25px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
-        label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-family: var(--font-lato); }
+        label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
         
         /* Inputs style "Ligne sur papier" */
         input, select { 
             width: 100%; padding: 10px 0; border: none; border-bottom: 1px solid rgba(82, 99, 66, 0.3); 
             background: transparent; font-family: var(--font-serif); font-size: 1.1rem; color: var(--text); border-radius: 0;
         }
-        input:focus, select:focus { outline: none; border-bottom: 2px solid var(--olive); }
+        input:focus, select:focus { outline: none; border-bottom: 2px solid var(--primary); }
         input::placeholder { color: rgba(56, 70, 43, 0.4); font-style: italic; }
         
-        .btn-add { background: none; border: 1px dashed var(--olive); color: var(--olive); width: 100%; padding: 15px; cursor: pointer; margin-top: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; font-family: var(--font-sans); }
-        .btn-submit { width: 100%; padding: 20px; background: var(--olive); color: var(--creme); border: none; margin-top: 40px; font-weight: 400; cursor: pointer; font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; transition: opacity 0.3s ease; font-family: var(--font-sans); }
+        .btn-add { background: none; border: 1px dashed var(--primary); color: var(--primary); width: 100%; padding: 15px; cursor: pointer; margin-top: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; }
+        .btn-submit { width: 100%; padding: 20px; background: var(--primary); color: var(--bg); border: none; margin-top: 40px; font-weight: bold; cursor: pointer; font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; transition: opacity 0.3s ease; }
         .btn-submit:hover { opacity: 0.9; }
         .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
         
-        #status-message { margin-top: 20px; text-align: center; font-weight: bold; font-family: var(--font-lato); }
-        .remove-btn { float: right; font-size: 0.7rem; cursor: pointer; color: #8b0000; letter-spacing: 1px; text-transform: uppercase; font-family: var(--font-sans); }
+        #status-message { margin-top: 20px; text-align: center; font-weight: bold; }
+        .remove-btn { float: right; font-size: 0.7rem; cursor: pointer; color: #8b0000; letter-spacing: 1px; text-transform: uppercase; }
 
-        footer { padding: 60px; text-align: center; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--olive); opacity: 0.6; font-family: var(--font-sans); }
+        footer { padding: 60px; text-align: center; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--primary); opacity: 0.6; }
 
         @media (max-width: 600px) {
             .form-card { padding: 30px 20px; border-left: none; border-right: none; }
             .form-row { grid-template-columns: 1fr; gap: 0; }
-            .botanical-corner { max-width: 120px; }
+            .top-left { width: 150px; }
+            .bottom-right { width: 150px; }
         }
 
         /* ========================================== */
@@ -157,33 +134,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W7ZV68Z3"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<svg class="botanical-corner top-left" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5,120 C10,100 20,90 30,85 C25,80 18,70 20,60 C23,50 32,45 40,48 C45,52 48,60 45,68 C42,75 35,78 30,75 C35,80 42,85 50,88 C45,82 40,75 42,65 C44,55 52,50 60,52 C65,55 68,62 65,70 C62,77 55,80 50,77 C55,82 62,87 70,90 C65,85 60,78 62,68 C64,58 72,53 80,55 C85,58 88,65 85,73 C82,80 75,83 70,80 C75,85 82,90 90,93" />
-        <path d="M15,90 C18,85 22,82 25,80 C20,75 15,68 17,60 C19,52 26,48 33,50 C38,52 40,58 38,64 C36,70 31,73 27,71 C30,75 35,79 40,82 C36,77 32,71 34,63 C36,55 43,51 50,53 C55,55 58,61 56,67 C54,73 49,76 45,74 C48,78 53,82 58,85 C54,80 50,74 52,66 C54,58 61,54 68,56 C73,58 76,64 74,70 C72,76 67,79 63,77 C66,81 71,85 76,88" stroke-width="0.4" />
-        <circle cx="20" cy="65" r="3" fill="var(--olive)" fill-opacity="0.3" stroke="none"/>
-        <circle cx="45" cy="70" r="3" fill="var(--olive)" fill-opacity="0.3" stroke="none"/>
-        <circle cx="70" cy="75" r="3" fill="var(--olive)" fill-opacity="0.3" stroke="none"/>
-    </svg>
-    <svg class="botanical-corner bottom-right" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5,120 C10,100 20,90 30,85 C25,80 18,70 20,60 C23,50 32,45 40,48 C45,52 48,60 45,68 C42,75 35,78 30,75 C35,80 42,85 50,88 C45,82 40,75 42,65 C44,55 52,50 60,52 C65,55 68,62 65,70 C62,77 55,80 50,77 C55,82 62,87 70,90 C65,85 60,78 62,68 C64,58 72,53 80,55 C85,58 88,65 85,73 C82,80 75,83 70,80 C75,85 82,90 90,93" />
-        <path d="M15,90 C18,85 22,82 25,80 C20,75 15,68 17,60 C19,52 26,48 33,50 C38,52 40,58 38,64 C36,70 31,73 27,71 C30,75 35,79 40,82 C36,77 32,71 34,63 C36,55 43,51 50,53 C55,55 58,61 56,67 C54,73 49,76 45,74 C48,78 53,82 58,85 C54,80 50,74 52,66 C54,58 61,54 68,56 C73,58 76,64 74,70 C72,76 67,79 63,77 C66,81 71,85 76,88" stroke-width="0.4" />
-        <circle cx="20" cy="65" r="3" fill="var(--olive)" fill-opacity="0.3" stroke="none"/>
-        <circle cx="45" cy="70" r="3" fill="var(--olive)" fill-opacity="0.3" stroke="none"/>
-        <circle cx="70" cy="75" r="3" fill="var(--olive)" fill-opacity="0.3" stroke="none"/>
-    </svg>
-
+<!-- End Google Tag Manager (noscript) -->
     <section id="hero">
-        <div class="container">
-            <p class="text-italic-serif" style="font-size: 1.1rem; color: var(--olive); margin-bottom: 25px;">12 septembre 2026</p>
+        <img src="" class="deco-fleur top-left" alt="">
+        <img src="" class="deco-fleur bottom-right" alt="">
+
+        <div style="z-index: 2;">
+            <p class="text-italic-serif" style="margin-bottom: 40px;">C'est avec joie que nous vous<br>invitons à célébrer notre union !</p>
             
-            <h1>ANNE-MARIE<br><span>&</span><br>MARC-ANDRÉ</h1>
+            <div class="thin-divider"></div>
             
-            <div class="thin-divider" style="margin-top: 30px;"></div>
+            <h1>Anne-Marie<br><span>&</span><br>Marc-André</h1>
             
-            <p class="text-italic-serif" style="margin-top: 30px; margin-bottom: 40px;">C'est avec joie que nous vous<br>invitons à célébrer notre union !</p>
+            <div class="thin-divider"></div>
             
+            <p class="text-caps-sans" style="margin-top: 40px;">12 Septembre 2026</p>
             <p class="text-italic-serif" style="font-size: 1.1rem; margin-top: 10px;">
                 1685 Chenal-du-Moine<br>Sainte-Anne-de-Sorel
             </p>
@@ -202,7 +170,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h2 class="big-time">15h30</h2>
             <p class="text-caps-sans">Pour un cocktail suivi d'un<br>souper et d'une soirée festive.</p>
             
-            <div class="floral-icon">❁</div> <p class="text-italic-serif" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; color: var(--text);">
+            <div class="floral-icon">❁</div> <p class="text-italic-serif" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
                 Afin que vous puissiez profiter pleinement de l'événement, nous avons choisi une réception sans enfants et avec alcool à volonté ! En espérant partager cette journée mémorable avec vous !
             </p>
             
@@ -226,13 +194,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section id="rsvp">
         <div class="container">
             <h2 style="font-size: 2rem; margin-bottom: 10px;">RSVP</h2>
-            <p class="text-italic-serif" style="font-size: 1rem; margin-bottom: 40px; color: var(--text);">Merci de confirmer votre présence<br>avant le <span style="font-family: var(--font-lato); font-weight: bold; font-style: normal; text-transform: uppercase;">1er juillet 2026</span></p>
+            <p class="text-italic-serif" style="font-size: 1rem; margin-bottom: 40px;">Merci de confirmer votre présence<br>avant le <span style="font-family: var(--font-sans); font-weight: bold; font-style: normal; text-transform: uppercase;">1er juillet 2026</span></p>
             
             <div class="form-card">
                 <form id="wedding-form">
                     <div id="guests-container">
                         <div class="guest-entry">
-                            <h3 style="font-size: 1.3rem; margin-bottom: 20px; font-family: var(--font-sans); color: var(--primary);">Invité #1 (Principal)</h3>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 20px;">Invité #1 (Principal)</h3>
                             
                             <div class="form-group">
                                 <label>Nom complet</label>
@@ -299,7 +267,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const div = document.createElement('div');
             div.className = 'guest-entry';
             div.innerHTML = `
-                <h3 style="font-size: 1.3rem; margin-bottom: 20px; font-family: var(--font-sans); color: var(--primary);">
+                <h3 style="font-size: 1.3rem; margin-bottom: 20px;">
                     Invité #${count + 1} 
                     <span class="remove-btn" onclick="this.parentElement.parentElement.remove()">Retirer</span>
                 </h3>
@@ -376,12 +344,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     // Nouveau message de succès stylisé
                     formCard.innerHTML = `
                         <div style="text-align: center; padding: 40px 20px;">
-                            <h2 style="font-size: 2.5rem; margin-bottom: 20px; font-family: var(--font-sans); color: var(--primary);">Merci !</h2>
-                            <p class="text-italic-serif" style="font-size: 1.2rem; margin-bottom: 30px; color: var(--text);">
+                            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Merci !</h2>
+                            <p class="text-italic-serif" style="font-size: 1.2rem; margin-bottom: 30px;">
                                 Vos réponses ont été enregistrées avec succès.<br>
                                 Nous avons très hâte de célébrer avec vous.
                             </p>
-                            <div class="thin-divider" style="background: var(--olive);"></div>
+                            <div class="thin-divider"></div>
                             <p class="text-caps-sans" style="font-size: 0.75rem; opacity: 0.7; margin-top: 20px;">
                                 Si vous devez modifier votre réponse, veuillez nous contacter directement.
                             </p>
@@ -404,7 +372,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         });
 
-        // Konami & Lightbox focus
+        // Konami & Lightbox
         window.focus();
 
         function openLightbox(iframeHTML) {
