@@ -154,12 +154,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; z-index: 10000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* NOUVEAU STYLE : TEXTE DISCO */
+        /* NOUVEAU STYLE : TEXTE DISCO AJUSTÉ */
         .disco-overlay {
             position: absolute;
-            top: 30px; /* Position sur le haut de la vidéo */
+            top: -5px; /* <-- NOUVELLE VALEUR : Rapproche le texte du haut de la vidéo */
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -100%); /* <-- NOUVELLE VALEUR : Centre et élève par rapport au bas */
             font-family: var(--font-sans);
             font-size: clamp(1.2rem, 4vw, 2.5rem);
             font-weight: 900;
