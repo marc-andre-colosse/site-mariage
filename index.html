@@ -43,12 +43,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* --- SECTION 1 : HERO (Page 1 du faire-part) --- */
         #hero {
-            min-height: 100vh;
+            min-height: 75vh; /* Réduit de 100vh à 75vh pour resserrer le grand vide sous le bouton */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 60px 20px; /* Ajustement du padding pour mieux contrôler l'espace vertical */
             overflow: hidden;
         }
         
@@ -70,11 +70,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .btn-outline:hover { background: var(--primary); color: var(--bg); }
 
         /* --- SECTION 2 : DÉROULEMENT (Page 2 du faire-part) --- */
-        #schedule { padding-top: 100px; padding-bottom: 40px; }
+        #schedule { padding-top: 100px; padding-bottom: 10px; } /* padding-bottom réduit pour éliminer le vide avant le RSVP */
         .big-time { font-size: clamp(4rem, 10vw, 6rem); margin: 15px 0; }
 
         /* --- SECTION 4 : RSVP (Papeterie Style) --- */
-        #rsvp { padding-top: 40px; padding-bottom: 20px; } /* Réduction de l'espace en bas */
+        #rsvp { padding-top: 10px; padding-bottom: 20px; } /* padding-top réduit pour remonter le titre RSVP */
         .form-card {
             background: transparent;
             padding: 50px 40px;
@@ -192,7 +192,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="text-caps-sans">Pour un cocktail suivi d'un<br>souper et d'une soirée festive.</p>
             
             <div class="floral-icon">❁</div> <p class="text-italic-serif" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
-                Afin que vous puissiez profiter pleinement de l'événement, nous avons choisi une réception sans enfants et avec alcool à volonté ! En espérant partager cette journée mémorable avec vous !
+                Afin que vous puissiez profiter pleinement de l'événement, nous avons choisi une réception sans enfants and avec alcool à volonté ! En espérant partager cette journée mémorable avec vous !
             </p>
             
             <div class="long-divider"></div>
@@ -266,7 +266,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <img src="/assets/images/hotel_rive.webp" alt="Hôtel de la Rive" class="card-img">
                     <h3>Hôtel de la Rive</h3>
                     <p>165 Chemin Ste-Anne<br>Sorel-Tracy</p>
-                    <p class="distance-info">6km — 8 minutes</p>
+                    <p class="distance-info">6km — 8 minutes de la salle</p>
                     <p class="price">Environ 250$ occupation double</p>
                     <p class="note">*À la réservation, mentionner que vous faites partie du groupe d’Anne-Marie Simard</p>
                 </a>
@@ -275,7 +275,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <img src="/assets/images/archipel.webp" alt="Domaine de l’Archipel" class="card-img">
                     <h3>Domaine de l’Archipel</h3>
                     <p>2786 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
-                    <p class="distance-info">2km — 3 minutes</p>
+                    <p class="distance-info">2km — 3 minutes de la salle</p>
                     <p class="price">Environ 200$ occupation double</p>
                     <p class="note">*Chalets de 3 à 12 occupants</p>
                 </a>
@@ -284,7 +284,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <img src="/assets/images/camping.webp" alt="Camping du Chenal-du-Moine" class="card-img">
                     <h3>Camping du Chenal-du-Moine</h3>
                     <p>1686 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
-                    <p class="distance-info">500m — 1 minute</p>
+                    <p class="distance-info">500m — 1 minute de la salle</p>
                     <p class="price">Environ 50$ occupation double</p>
                 </a>
             </div>
@@ -402,7 +402,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     `;
                     formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // Vidéo 2
+                    // Vidéo 2 - Modifiée selon votre demande
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/Gs069dndIYk?si=ijY9cCzpeFOBYMOa&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
 
                 } else {
