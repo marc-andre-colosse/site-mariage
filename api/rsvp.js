@@ -15,13 +15,11 @@ export default async function handler(req, res) {
   }
 
   // --- GÉNÉRATION DE L'ID DE BUNDLE ---
-  // On prend les 8 derniers chiffres du timestamp actuel (unique à la milliseconde)
-  // On ajoute une lettre "B" pour "Bundle" au début pour le style.
   const submissionId = "B-" + Date.now().toString().slice(-8);
 
   const records = guests.map(guest => ({
     fields: {
-      "ID": submissionId,              // <--- L'ID unique pour tout le groupe
+      "ID": submissionId,              
       "Personne": guest.name,
       "Repas": guest.meal,
       "Restrictions": guest.restrictions || "",
@@ -57,42 +55,69 @@ export default async function handler(req, res) {
     // ==========================================
     // 2. ENVOI DU COURRIEL DE CONFIRMATION (RESEND)
     // ==========================================
-    // On cherche le premier invité du groupe qui a fourni une adresse courriel
-    const mainGuest = guests.find(g => g.email && g.email.trim() !== '');
+    
+    // On trouve TOUS les invités du groupe qui ont fourni une adresse courriel
+    const guestsWithEmail = guests.filter(g => g.email && g.email.trim() !== '');
 
-    if (mainGuest) {
-        try {
-            await resend.emails.send({
-                // ⚠️ IMPORTANT: Remplace "info@ton-domaine-verifie.com" par ton adresse d'envoi vérifiée sur Resend
-                from: 'Mariage Anne-Marie & Marc-André <info@ton-domaine-verifie.com>', 
-                to: mainGuest.email,
-                subject: 'Confirmation de votre présence - 12 Septembre 2026',
-                html: `
-                    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #38462b; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #526342; border-radius: 5px; text-align: center;">
-                        <h1 style="color: #526342; font-weight: normal; margin-bottom: 20px;">Merci ${mainGuest.name.split(' ')[0]} !</h1>
-                        
-                        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
-                            Nous confirmons la bonne réception de votre RSVP pour notre mariage.<br>
-                            Vos choix de repas et informations ont bien été notés.
-                        </p>
-                        
-                        <div style="width: 50px; height: 1px; background-color: #526342; margin: 0 auto 30px auto; opacity: 0.5;"></div>
-                        
-                        <p style="font-size: 14px; font-style: italic; opacity: 0.8;">
-                            Nous avons très hâte de célébrer avec vous le 12 septembre 2026 !<br><br>
-                            Anne-Marie & Marc-André
-                        </p>
+    if (guestsWithEmail.length > 0) {
+        // On utilise Promise.all pour envoyer tous les courriels en parallèle
+        await Promise.all(guestsWithEmail.map(async (recipient) => {
+            
+            // On identifie les autres membres de son groupe (s'il y en a)
+            const companions = guests.filter(g => g.name !== recipient.name);
+            let companionsHtml = '';
+            
+            if (companions.length > 0) {
+                const companionsList = companions.map(c => `<li style="margin-bottom: 5px;">${c.name}</li>`).join('');
+                companionsHtml = `
+                    <div style="background-color: rgba(82, 99, 66, 0.05); padding: 15px; border-radius: 5px; margin-bottom: 30px; text-align: left;">
+                        <p style="font-size: 14px; font-weight: bold; margin-top: 0; color: #526342;">Personne(s) vous accompagnant :</p>
+                        <ul style="font-size: 14px; margin-bottom: 0; padding-left: 20px;">
+                            ${companionsList}
+                        </ul>
                     </div>
-                `
-            });
-        } catch (emailError) {
-            // Si l'envoi du courriel échoue (ex: mauvaise adresse), on log l'erreur 
-            // mais on ne bloque pas la réussite de l'inscription dans Airtable.
-            console.error('Erreur lors de l\'envoi du courriel Resend:', emailError);
-        }
+                `;
+            }
+
+            try {
+                await resend.emails.send({
+                    from: 'Mariage Anne-Marie & Marc-André <info@mariage-amma.com>', 
+                    to: recipient.email,
+                    subject: 'Confirmation de votre présence - 12 Septembre 2026',
+                    html: `
+                        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #38462b; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid rgba(82, 99, 66, 0.4); border-radius: 5px; text-align: center;">
+                            <h1 style="color: #526342; font-weight: normal; margin-bottom: 20px;">Merci ${recipient.name.split(' ')[0]} !</h1>
+                            
+                            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+                                Nous confirmons la bonne réception de votre RSVP pour notre mariage.<br>
+                                Votre choix de repas (<strong>${recipient.meal}</strong>) a bien été noté.
+                            </p>
+                            
+                            ${companionsHtml}
+                            
+                            <div style="width: 50px; height: 1px; background-color: #526342; margin: 0 auto 30px auto; opacity: 0.5;"></div>
+                            
+                            <p style="font-size: 14px; line-height: 1.6; opacity: 0.8; margin-bottom: 20px;">
+                                Si vous souhaitez reconsulter les détails de l'événement ou les options d'hébergement, n'hésitez pas à visiter notre site web :<br>
+                                <a href="https://mariage-amma.com" style="color: #526342; font-weight: bold; text-decoration: none;">Voir le site web du mariage</a>
+                            </p>
+                            
+                            <p style="font-size: 14px; line-height: 1.6; font-style: italic; color: #526342;">
+                                Pour toute question ou pour modifier votre réponse, vous pouvez nous écrire au <a href="mailto:info@mariage-amma.com" style="color: #526342;">info@mariage-amma.com</a>.<br><br>
+                                Nous avons très hâte de célébrer avec vous !<br><br>
+                                Anne-Marie & Marc-André
+                            </p>
+                        </div>
+                    `
+                });
+            } catch (emailError) {
+                // On log l'erreur pour cet invité spécifique, mais on continue la boucle pour les autres
+                console.error(`Erreur lors de l'envoi du courriel à ${recipient.email}:`, emailError);
+            }
+        }));
     }
 
-    // Tout a fonctionné !
+    // Tout a fonctionné (Airtable + les envois de courriels)
     return res.status(200).json({ success: true });
 
   } catch (error) {
