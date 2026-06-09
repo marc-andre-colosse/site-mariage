@@ -123,7 +123,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
         .accom-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(82, 99, 66, 0.1); }
         
-        /* NOUVEAU STYLE CSS POUR L'IMAGE DANS LA CARTE */
+        /* STYLE CSS POUR L'IMAGE DANS LA CARTE */
         .card-img {
             width: 100%; /* l'image prend toute la largeur de la carte */
             height: 160px; /* hauteur fixe pour uniformiser */
@@ -133,6 +133,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; padding: 0 20px; /* padding interne ajouté */ }
         .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; padding: 0 20px; /* padding interne ajouté */ }
+        .accom-card .distance-info { font-size: 0.85rem; color: var(--primary); opacity: 0.9; margin-top: 10px; font-weight: bold; letter-spacing: 0.5px; }
         .accom-card .price { font-weight: bold; margin-top: 15px; }
         .accom-card .note { font-style: italic; color: var(--primary); font-size: 0.8rem; margin-top: 15px; }
 
@@ -280,6 +281,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <img src="/assets/images/hotel_rive.webp" alt="Hôtel de la Rive" class="card-img">
                     <h3>Hôtel de la Rive</h3>
                     <p>165 Chemin Ste-Anne<br>Sorel-Tracy</p>
+                    <p class="distance-info">6km — 8 minutes</p>
                     <p class="price">Environ 250$ occupation double</p>
                     <p class="note">*À la réservation, mentionner que vous faites partie du groupe d’Anne-Marie Simard</p>
                 </a>
@@ -288,6 +290,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <img src="/assets/images/archipel.webp" alt="Domaine de l’Archipel" class="card-img">
                     <h3>Domaine de l’Archipel</h3>
                     <p>2786 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
+                    <p class="distance-info">2km — 3 minutes</p>
                     <p class="price">Environ 200$ occupation double</p>
                     <p class="note">*Chalets de 3 à 12 occupants</p>
                 </a>
@@ -296,6 +299,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <img src="/assets/images/camping.webp" alt="Camping du Chenal-du-Moine" class="card-img">
                     <h3>Camping du Chenal-du-Moine</h3>
                     <p>1686 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
+                    <p class="distance-info">500m — 1 minute</p>
                     <p class="price">Environ 50$ occupation double</p>
                 </a>
             </div>
