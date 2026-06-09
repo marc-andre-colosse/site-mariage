@@ -1,3 +1,8 @@
+import { Resend } from 'resend';
+
+// Initialisation de Resend avec ta clé API (définie dans Vercel)
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Méthode non autorisée' });
@@ -28,6 +33,9 @@ export default async function handler(req, res) {
   }));
 
   try {
+    // ==========================================
+    // 1. ENVOI DES DONNÉES VERS AIRTABLE
+    // ==========================================
     const response = await fetch(`https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_NAME}`, {
       method: 'POST',
       headers: {
@@ -46,6 +54,45 @@ export default async function handler(req, res) {
       });
     }
 
+    // ==========================================
+    // 2. ENVOI DU COURRIEL DE CONFIRMATION (RESEND)
+    // ==========================================
+    // On cherche le premier invité du groupe qui a fourni une adresse courriel
+    const mainGuest = guests.find(g => g.email && g.email.trim() !== '');
+
+    if (mainGuest) {
+        try {
+            await resend.emails.send({
+                // ⚠️ IMPORTANT: Remplace "info@ton-domaine-verifie.com" par ton adresse d'envoi vérifiée sur Resend
+                from: 'Mariage Anne-Marie & Marc-André <info@ton-domaine-verifie.com>', 
+                to: mainGuest.email,
+                subject: 'Confirmation de votre présence - 12 Septembre 2026',
+                html: `
+                    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #38462b; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #526342; border-radius: 5px; text-align: center;">
+                        <h1 style="color: #526342; font-weight: normal; margin-bottom: 20px;">Merci ${mainGuest.name.split(' ')[0]} !</h1>
+                        
+                        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+                            Nous confirmons la bonne réception de votre RSVP pour notre mariage.<br>
+                            Vos choix de repas et informations ont bien été notés.
+                        </p>
+                        
+                        <div style="width: 50px; height: 1px; background-color: #526342; margin: 0 auto 30px auto; opacity: 0.5;"></div>
+                        
+                        <p style="font-size: 14px; font-style: italic; opacity: 0.8;">
+                            Nous avons très hâte de célébrer avec vous le 12 septembre 2026 !<br><br>
+                            Anne-Marie & Marc-André
+                        </p>
+                    </div>
+                `
+            });
+        } catch (emailError) {
+            // Si l'envoi du courriel échoue (ex: mauvaise adresse), on log l'erreur 
+            // mais on ne bloque pas la réussite de l'inscription dans Airtable.
+            console.error('Erreur lors de l\'envoi du courriel Resend:', emailError);
+        }
+    }
+
+    // Tout a fonctionné !
     return res.status(200).json({ success: true });
 
   } catch (error) {
