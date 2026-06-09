@@ -29,7 +29,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         /* --- STYLES GENERAUX --- */
         section { padding: 80px 20px; text-align: center; position: relative; }
         .container { max-width: 800px; margin: 0 auto; }
-        .container-large { max-width: 1100px; margin: 0 auto; } /* Nouveau conteneur plus large pour les cartes */
+        .container-large { max-width: 1100px; margin: 0 auto; } 
         
         h1, h2, h3 { font-family: var(--font-serif); color: var(--primary); font-weight: 400; margin: 0; }
         
@@ -43,12 +43,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* --- SECTION 1 : HERO (Page 1 du faire-part) --- */
         #hero {
-            min-height: 75vh; /* Réduit de 100vh à 75vh pour resserrer le grand vide sous le bouton */
+            min-height: 75vh; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 60px 20px; /* Ajustement du padding pour mieux contrôler l'espace vertical */
+            padding: 60px 20px; 
             overflow: hidden;
         }
         
@@ -70,15 +70,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .btn-outline:hover { background: var(--primary); color: var(--bg); }
 
         /* --- SECTION 2 : DÉROULEMENT (Page 2 du faire-part) --- */
-        #schedule { padding-top: 100px; padding-bottom: 10px; } /* padding-bottom réduit pour éliminer le vide avant le RSVP */
+        #schedule { padding-top: 100px; padding-bottom: 10px; } 
         .big-time { font-size: clamp(4rem, 10vw, 6rem); margin: 15px 0; }
 
         /* --- SECTION 4 : RSVP (Papeterie Style) --- */
-        #rsvp { padding-top: 10px; padding-bottom: 20px; } /* padding-top réduit pour remonter le titre RSVP */
+        #rsvp { padding-top: 10px; padding-bottom: 20px; } 
         .form-card {
             background: transparent;
             padding: 50px 40px;
-            border: 1px solid rgba(82, 99, 66, 0.4); /* Bordure fine au lieu d'ombre */
+            border: 1px solid rgba(82, 99, 66, 0.4); 
             max-width: 650px;
             margin: 0 auto;
             text-align: left;
@@ -109,28 +109,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .remove-btn { float: right; font-size: 0.7rem; cursor: pointer; color: #8b0000; letter-spacing: 1px; text-transform: uppercase; }
 
         /* --- SECTION 5 : HÉBERGEMENT (Où dormir) --- */
-        #hebergement { padding-top: 20px; padding-bottom: 120px; } /* Réduction de l'espace en haut */
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 40px; } /* Minmax plus grand pour des cartes plus larges */
+        #hebergement { padding-top: 20px; padding-bottom: 120px; } 
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 40px; } 
         .accom-card { 
             display: flex; flex-direction: column; justify-content: flex-start;
             text-decoration: none; color: var(--text); background: transparent; 
-            border: 1px solid rgba(82, 99, 66, 0.3); padding: 0 0 30px 0; /* padding ajusté pour ne pas compresser l'image */
+            border: 1px solid rgba(82, 99, 66, 0.3); padding: 0 0 30px 0; 
             transition: all 0.3s ease; cursor: pointer; text-align: center;
-            border-radius: 5px; /* arrondi ajouté pour matcher l'image */
-            overflow: hidden; /* nécessaire pour que l'image suive l'arrondi de la carte */
+            border-radius: 5px; 
+            overflow: hidden; 
         }
         .accom-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(82, 99, 66, 0.1); }
         
-        /* STYLE CSS POUR L'IMAGE DANS LA CARTE */
         .card-img {
-            width: 100%; /* l'image prend toute la largeur de la carte */
-            height: 160px; /* hauteur fixe pour uniformiser */
-            object-fit: cover; /* évite de déformer l'image en la recadrant proprement */
-            margin-bottom: 20px; /* espace avant le titre */
+            width: 100%; 
+            height: 160px; 
+            object-fit: cover; 
+            margin-bottom: 20px; 
         }
 
-        .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; padding: 0 20px; /* padding interne ajouté */ }
-        .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; padding: 0 20px; /* padding interne ajouté */ }
+        .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; padding: 0 20px; }
+        .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; padding: 0 20px; }
         .accom-card .distance-info { font-size: 0.85rem; color: var(--primary); opacity: 0.9; margin-top: 10px; font-weight: bold; letter-spacing: 0.5px; }
         .accom-card .price { font-weight: bold; margin-top: 15px; }
         .accom-card .note { font-style: italic; color: var(--primary); font-size: 0.8rem; margin-top: 15px; }
@@ -149,7 +148,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         /* ========================================== */
         #video-lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         #video-lightbox.active { display: flex; opacity: 1; }
-        .lightbox-content { position: relative; width: 100%; max-width: 800px; padding: 20px; }
+        .lightbox-content { position: relative; width: 100%; max-width: 800px; padding: 20px; z-index: 10000; } /* Z-index élevé pour être au-dessus des cœurs */
         .lightbox-close { position: absolute; top: -40px; right: 20px; color: white; font-size: 2.5rem; cursor: pointer; font-family: sans-serif; opacity: 0.6; transition: opacity 0.3s; }
         .lightbox-close:hover { opacity: 1; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; }
@@ -192,7 +191,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="text-caps-sans">Pour un cocktail suivi d'un<br>souper et d'une soirée festive.</p>
             
             <div class="floral-icon">❁</div> <p class="text-italic-serif" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
-                Afin que vous puissiez profiter pleinement de l'événement, nous avons choisi une réception sans enfants and avec alcool à volonté ! En espérant partager cette journée mémorable avec vous !
+                Afin que vous puissiez profiter pleinement de l'événement, nous avons choisi une réception sans enfants et avec alcool à volonté ! En espérant partager cette journée mémorable avec vous !
             </p>
             
             <div class="long-divider"></div>
@@ -402,7 +401,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     `;
                     formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // Vidéo 2 - Modifiée selon votre demande
+                    // Vidéo 2 & Démarrage de la pluie de cœurs !
+                    startHeartRain();
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/Gs069dndIYk?si=ijY9cCzpeFOBYMOa&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
 
                 } else {
@@ -417,7 +417,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         });
 
-        // Konami & Lightbox
+        // ==========================================
+        // LOGIQUE POPUP VIDÉO & KONAMI & PLUIE DE COEURS
+        // ==========================================
         window.focus();
 
         function openLightbox(iframeHTML) {
@@ -428,6 +430,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         function closeLightbox() {
             document.getElementById('video-lightbox').classList.remove('active');
             document.getElementById('lightbox-video-wrapper').innerHTML = ''; 
+            stopHeartRain(); // On arrête la pluie et nettoie l'écran à la fermeture
         }
 
         const konamiSequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
@@ -439,7 +442,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 konamiIndex++;
                 if (konamiIndex === konamiSequence.length) {
                     konamiIndex = 0;
-                    // Vidéo 1
                     openLightbox('<iframe width="560" height="315" src="https://www.youtube.com/embed/fPO76Jlnz6c?si=FhKri1eIPUOb71BF&autoplay=1&mute=0&start=59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>');
                 }
             } else {
@@ -448,6 +450,129 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
             }
         });
+
+        // --- MOTEUR DE PLUIE DE COEURS EMPILABLES ---
+        let heartRainAnimationId;
+        let heartRainActive = false;
+
+        function startHeartRain() {
+            if (document.getElementById('heart-canvas')) return;
+            
+            const canvas = document.createElement('canvas');
+            canvas.id = 'heart-canvas';
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.pointerEvents = 'none'; // Permet de cliquer à travers (sur la vidéo ou le X)
+            canvas.style.zIndex = '9998'; // Juste en-dessous de la vidéo, mais par-dessus le fond noir
+            document.body.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let stacks = [];
+            const colWidth = 20;
+
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+                const numCols = Math.ceil(width / colWidth);
+                stacks = new Array(numCols).fill(0);
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            let hearts = [];
+            // Couleurs : Vert olive, Rouge passion, Rose clair, Crème/Blanc
+            const colors = ['#526342', '#e74c3c', '#ffb8b8', '#fdfaf5'];
+
+            function createHeart() {
+                // On limite le nombre total de cœurs à l'écran pour éviter que ça ne ralentisse l'ordinateur
+                if (hearts.length > 1000) return; 
+
+                hearts.push({
+                    x: Math.random() * width,
+                    y: -30,
+                    vy: Math.random() * 2 + 2, // Vitesse de chute
+                    vx: Math.random() * 1 - 0.5, // Léger balancement horizontal
+                    size: Math.random() * 10 + 10, // Taille aléatoire
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    stopped: false,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.05
+                });
+            }
+
+            function drawHeart(ctx, x, y, size, color, angle) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.scale(size / 30, size / 30);
+                ctx.beginPath();
+                ctx.moveTo(0, 10);
+                ctx.bezierCurveTo(0, -10, -20, -10, -20, 10);
+                ctx.bezierCurveTo(-20, 30, 0, 40, 0, 50);
+                ctx.bezierCurveTo(0, 40, 20, 30, 20, 10);
+                ctx.bezierCurveTo(20, -10, 0, -10, 0, 10);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            heartRainActive = true;
+
+            function animate() {
+                if (!heartRainActive) return;
+                ctx.clearRect(0, 0, width, height);
+
+                // Ajoute de nouveaux coeurs aléatoirement
+                if (Math.random() < 0.15) { 
+                    createHeart();
+                }
+
+                hearts.forEach(h => {
+                    if (!h.stopped) {
+                        h.y += h.vy;
+                        h.x += h.vx;
+                        h.angle += h.spin;
+
+                        let col = Math.floor(h.x / colWidth);
+                        if (col < 0) col = 0;
+                        if (col >= stacks.length) col = stacks.length - 1;
+
+                        // Vérifie si le bout du coeur touche le bas de l'écran ou le monticule
+                        let heartBottomY = h.y + (50 * (h.size / 30));
+                        if (heartBottomY >= height - stacks[col]) {
+                            h.y = height - stacks[col] - (50 * (h.size / 30));
+                            h.stopped = true;
+                            // Fait grandir le monticule à cet endroit précis
+                            stacks[col] += (30 * (h.size / 30)); 
+                            
+                            // Adoucit le monticule en augmentant légèrement les colonnes adjacentes
+                            if(col > 0) stacks[col-1] += 5;
+                            if(col < stacks.length - 1) stacks[col+1] += 5;
+                        }
+                    }
+                    // Dessine le coeur (s'il est tombé, on arrête de le faire tourner)
+                    drawHeart(ctx, h.x, h.y, h.size, h.color, h.stopped ? h.angle : 0); 
+                });
+
+                heartRainAnimationId = requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function stopHeartRain() {
+            heartRainActive = false;
+            cancelAnimationFrame(heartRainAnimationId);
+            const canvas = document.getElementById('heart-canvas');
+            if (canvas) {
+                canvas.remove();
+            }
+        }
     </script>
 </body>
 </html>
