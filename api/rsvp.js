@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-// Initialisation de Resend avec ta clé API
+// Initialisation de Resend avec ta clé API (définie dans Vercel)
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
@@ -55,18 +55,22 @@ export default async function handler(req, res) {
     // ==========================================
     // 2. ENVOI DU COURRIEL DE CONFIRMATION AUX INVITÉS
     // ==========================================
+    
+    // On trouve TOUS les invités du groupe qui ont fourni une adresse courriel
     const guestsWithEmail = guests.filter(g => g.email && g.email.trim() !== '');
 
     if (guestsWithEmail.length > 0) {
+        // On utilise Promise.all pour envoyer tous les courriels en parallèle
         await Promise.all(guestsWithEmail.map(async (recipient) => {
             
+            // On identifie les autres membres de son groupe (s'il y en a)
             const companions = guests.filter(g => g.name !== recipient.name);
             let companionsHtml = '';
             
             if (companions.length > 0) {
                 const companionsList = companions.map(c => `<li style="margin-bottom: 5px;">${c.name}</li>`).join('');
                 companionsHtml = `
-                    <div class="companion-box" style="background-color: #f0f2ef; padding: 15px; border-radius: 5px; margin-bottom: 30px; text-align: left;">
+                    <div class="companion-box" style="background-color: rgba(82, 99, 66, 0.05); padding: 15px; border-radius: 5px; margin-bottom: 30px; text-align: left;">
                         <p class="accent-text" style="font-size: 14px; font-weight: bold; margin-top: 0; color: #526342;">Personne(s) vous accompagnant :</p>
                         <ul class="main-text" style="font-size: 14px; margin-bottom: 0; padding-left: 20px; color: #38462b;">
                             ${companionsList}
@@ -88,26 +92,36 @@ export default async function handler(req, res) {
                             <meta name="color-scheme" content="light dark">
                             <meta name="supported-color-schemes" content="light dark">
                             <style>
-                                /* Fixes globaux pour assurer le contraste en mode sombre */
+                                /* Fixes globaux pour assurer le contraste */
                                 :root { color-scheme: light dark; }
+                                
                                 @media (prefers-color-scheme: dark) {
+                                    /* Le fond de la page devient sombre pour faire "popper" l'encadré */
                                     body { background-color: #121212 !important; }
-                                    .content-box { background-color: #1e1e1e !important; border-color: #526342 !important; }
-                                    .main-text { color: #e0e0e0 !important; }
-                                    .accent-text { color: #9ab086 !important; } /* Vert plus clair et lumineux */
-                                    .companion-box { background-color: #2a2e25 !important; }
-                                    .divider { background-color: #9ab086 !important; }
+                                    
+                                    /* --- L'encadré principal GARDE son fond CRÈME (#f6f5ef) --- */
+                                    .content-box { 
+                                        background-color: #f6f5ef !important; 
+                                        border-color: #526342 !important; 
+                                    }
+                                    
+                                    /* Le texte à l'intérieur GARDE sa couleur FONCÉE */
+                                    .main-text { color: #38462b !important; }
+                                    .accent-text { color: #526342 !important; }
+                                    .divider { background-color: #526342 !important; opacity: 0.5 !important; }
+                                    
+                                    /* La boîte des accompagnateurs s'adapte légèrement mais reste claire */
+                                    .companion-box { background-color: rgba(82, 99, 66, 0.1) !important; }
                                 }
                             </style>
                         </head>
                         <body style="margin: 0; padding: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f6f5ef;">
-                            <div class="content-box" style="background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #526342; border-radius: 5px; text-align: center;">
+                            <div class="content-box" style="background-color: #f6f5ef; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #526342; border-radius: 5px; text-align: center;">
                                 <h1 class="accent-text" style="color: #526342; font-weight: normal; margin-bottom: 20px;">Merci ${recipient.name.split(' ')[0]} !</h1>
                                 
                                 <p class="main-text" style="font-size: 16px; line-height: 1.6; margin-bottom: 20px; color: #38462b;">
                                     Nous confirmons la bonne réception de votre RSVP pour notre mariage.<br>
                                     Votre choix de repas (<strong class="accent-text" style="color: #526342;">${recipient.meal}</strong>) a bien été noté.
-                                </p>
                                 
                                 ${companionsHtml}
                                 
@@ -129,6 +143,7 @@ export default async function handler(req, res) {
                     `
                 });
             } catch (emailError) {
+                // On log l'erreur pour cet invité spécifique, mais on continue la boucle pour les autres
                 console.error(`Erreur lors de l'envoi du courriel à ${recipient.email}:`, emailError);
             }
         }));
@@ -138,6 +153,7 @@ export default async function handler(req, res) {
     // 3. ENVOI DE LA NOTIFICATION ADMIN (À VOUS)
     // ==========================================
     try {
+        // Construction du résumé HTML pour l'admin
         let adminHtml = `
             <!DOCTYPE html>
             <html lang="fr">
@@ -150,7 +166,7 @@ export default async function handler(req, res) {
                     @media (prefers-color-scheme: dark) {
                         body { background-color: #121212 !important; }
                         .content-box { color: #e0e0e0 !important; }
-                        .accent-text { color: #9ab086 !important; }
+                        .accent-text { color: #9ab086 !important; } /* Vert plus clair et lumineux */
                         .guest-card { background-color: #1e1e1e !important; border: 1px solid #333 !important; }
                     }
                 </style>
@@ -163,6 +179,7 @@ export default async function handler(req, res) {
                     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
         `;
 
+        // Boucle pour lister les détails de chaque invité
         guests.forEach((guest, index) => {
             adminHtml += `
                 <div class="guest-card" style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
@@ -184,6 +201,7 @@ export default async function handler(req, res) {
             </html>
         `;
 
+        // Envoi du courriel à votre adresse
         await resend.emails.send({
             from: 'Système RSVP <info@mariage-amma.com>', 
             to: 'info@mariage-amma.com', 
@@ -194,7 +212,7 @@ export default async function handler(req, res) {
         console.error(`Erreur lors de l'envoi de la notification admin:`, adminEmailError);
     }
 
-    // Tout a fonctionné
+    // Tout a fonctionné (Airtable + les envois de courriels)
     return res.status(200).json({ success: true });
 
   } catch (error) {
