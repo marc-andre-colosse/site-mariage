@@ -116,12 +116,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .accom-card { 
             display: flex; flex-direction: column; justify-content: flex-start;
             text-decoration: none; color: var(--text); background: transparent; 
-            border: 1px solid rgba(82, 99, 66, 0.3); padding: 30px 20px; 
+            border: 1px solid rgba(82, 99, 66, 0.3); padding: 0 0 30px 0; /* padding ajusté pour ne pas compresser l'image */
             transition: all 0.3s ease; cursor: pointer; text-align: center;
+            border-radius: 5px; /* arrondi ajouté pour matcher l'image */
+            overflow: hidden; /* nécessaire pour que l'image suive l'arrondi de la carte */
         }
         .accom-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(82, 99, 66, 0.1); }
-        .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; }
-        .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; }
+        
+        /* NOUVEAU STYLE CSS POUR L'IMAGE DANS LA CARTE */
+        .card-img {
+            width: 100%; /* l'image prend toute la largeur de la carte */
+            height: 160px; /* hauteur fixe pour uniformiser */
+            object-fit: cover; /* évite de déformer l'image en la recadrant proprement */
+            margin-bottom: 20px; /* espace avant le titre */
+        }
+
+        .accom-card h3 { font-family: var(--font-serif); color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; padding: 0 20px; /* padding interne ajouté */ }
+        .accom-card p { margin: 5px 0; font-size: 0.95rem; line-height: 1.4; padding: 0 20px; /* padding interne ajouté */ }
         .accom-card .price { font-weight: bold; margin-top: 15px; }
         .accom-card .note { font-style: italic; color: var(--primary); font-size: 0.8rem; margin-top: 15px; }
 
@@ -266,6 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             
             <div class="cards-grid">
                 <a href="https://www.hoteldelarive.com/" target="_blank" class="accom-card">
+                    <img src="https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=600" alt="Hôtel de la Rive" class="card-img">
                     <h3>Hôtel de la Rive</h3>
                     <p>165 Chemin Ste-Anne<br>Sorel-Tracy</p>
                     <p class="price">Environ 250$ occupation double</p>
@@ -273,6 +285,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </a>
                 
                 <a href="https://domainedelarchipel.com" target="_blank" class="accom-card">
+                    <img src="url-de-ton-image.jpg" alt="Domaine de l’Archipel" class="card-img">
                     <h3>Domaine de l’Archipel</h3>
                     <p>2786 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
                     <p class="price">Environ 200$ occupation double</p>
@@ -280,6 +293,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </a>
                 
                 <a href="https://campingchenaldumoine.com" target="_blank" class="accom-card">
+                    <img src="url-de-ton-image.jpg" alt="Camping du Chenal-du-Moine" class="card-img">
                     <h3>Camping du Chenal-du-Moine</h3>
                     <p>1686 Chenal-du-Moine<br>Sainte-Anne-de-Sorel</p>
                     <p class="price">Environ 50$ occupation double</p>
