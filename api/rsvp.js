@@ -20,7 +20,7 @@ async function getSpotifyAccessToken() {
     });
     const data = await response.json();
     
-    // LA NOUVELLE LUMIÈRE : Si Spotify refuse le Refresh Token, on l'affiche !
+    // LA NOUVELLE LUMIÈRE : Si Spotify refuse le Refresh Token, on l'affiche!
     if (!response.ok) {
         console.error('❌ Erreur de Jeton (Token) Spotify :', data);
         return null;
