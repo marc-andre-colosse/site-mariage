@@ -2,7 +2,7 @@ const getSpotifyToken = async () => {
     // --- TES INFORMATIONS À REMPLIR ---
     const clientId = '95e5ac1979184ad99eb4841b91f6f801';
     const clientSecret = '071a2924e1914a86a6e5ca05a7a9ce6d';
-    const code = 'AQCsmZRmHGhVZdMLUbXnQ2ah8GdcjSVW819eemcU6sJV4frDeW4XOPQgwMTbJ4CYtYsBMYZgp-kNlpsITS8fA8wROccrthymTV4OgJuYKgiisgZ-FYTKPWpG4mWqhlPa4EHWPlB-maik62bKjIcOlOmnurNAHHDM7mvXyg_8n3H48A5K8S8HfHl9eQ2yADQ9HZi0HuaI7LgUXHGcNlA9kDnYIBqC9aNjEeqWVKc'; 
+    const code = 'AQCiIwnu9gFQ6nzne4hnE-E6VNcUBoGIIrgMAHx1CBa2W2mlU0UltQWQRS-HPmgHPIAzIw9gJ2j8oYYj-qrVf2rsflXtUkwp1Pt2eGcH9gNIKqPPQ5TuLHi0IgEWQMavW9rzBXOEezdR-F_8hjrhtNzIPHJFbxTgizmgTYu_HuaG4b412WqqZgsA-qvc9mN_PKF_LFnK4XYuM0HLa1yqLHmd7TYtYFydYqnha_E'; 
 
     try {
         const response = await fetch('https://accounts.spotify.com/api/token', {
