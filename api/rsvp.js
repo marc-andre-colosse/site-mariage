@@ -36,7 +36,7 @@ async function addSongToPlaylist(songName, accessToken) {
         if (searchData.tracks && searchData.tracks.items.length > 0) {
             const trackUri = searchData.tracks.items[0].uri;
             
-            await fetch(`https://api.spotify.com/v1/playlists/${process.env.SPOTIFY_PLAYLIST_ID}/tracks`, {
+            const addRes = await fetch(`https://api.spotify.com/v1/playlists/${process.env.SPOTIFY_PLAYLIST_ID}/tracks`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -44,7 +44,15 @@ async function addSongToPlaylist(songName, accessToken) {
                 },
                 body: JSON.stringify({ uris: [trackUri] })
             });
-            console.log(`🎵 Succès : "${songName}" ajoutée à Spotify !`);
+
+            // On vérifie la vraie réponse de Spotify
+            if (addRes.ok) {
+                console.log(`🎵 Succès RÉEL : "${songName}" ajoutée à Spotify !`);
+            } else {
+                const errorData = await addRes.json();
+                console.error(`❌ Spotify a refusé l'ajout (Erreur ${addRes.status}):`, errorData);
+            }
+
         } else {
             console.log(`⚠️ Introuvable sur Spotify : "${songName}"`);
         }
@@ -101,7 +109,7 @@ export default async function handler(req, res) {
     }
 
     // ==========================================
-    // NOUVEAU : ENVOI DES CHANSONS VERS SPOTIFY
+    // ENVOI DES CHANSONS VERS SPOTIFY
     // ==========================================
     try {
         const spotifyToken = await getSpotifyAccessToken();
@@ -114,11 +122,12 @@ export default async function handler(req, res) {
             }
         }
     } catch (spotifyError) {
-        // On capture l'erreur pour ne pas bloquer le reste du code (Airtable/Courriels)
         console.error('Erreur globale Spotify:', spotifyError);
     }
 
+    // ==========================================
     // 2. ENVOI DU COURRIEL DE CONFIRMATION AUX INVITÉS
+    // ==========================================
     const guestsWithEmail = guests.filter(g => g.email && g.email.trim() !== '');
 
     if (guestsWithEmail.length > 0) {
@@ -206,7 +215,9 @@ export default async function handler(req, res) {
         }));
     }
 
+    // ==========================================
     // 3. ENVOI DE LA NOTIFICATION ADMIN (À VOUS)
+    // ==========================================
     try {
         let adminHtml = `
             <!DOCTYPE html>
