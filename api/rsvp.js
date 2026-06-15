@@ -20,7 +20,6 @@ async function getSpotifyAccessToken() {
     });
     const data = await response.json();
     
-    // LA NOUVELLE LUMIÈRE : Si Spotify refuse le Refresh Token, on l'affiche!
     if (!response.ok) {
         console.error('❌ Erreur de Jeton (Token) Spotify :', data);
         return null;
@@ -33,6 +32,17 @@ async function addSongToPlaylist(songName, accessToken) {
     if (!songName || songName.trim() === '') return;
 
     try {
+        // === LE TEST ULTIME DE L'IDENTITÉ ===
+        const meRes = await fetch('https://api.spotify.com/v1/me', {
+            headers: { 'Authorization': `Bearer ${accessToken}` }
+        });
+        const meData = await meRes.json();
+        console.log(`\n========================================`);
+        console.log(`👤 IDENTITÉ SPOTIFY CONNECTÉE : ${meData.id}`);
+        console.log(`👉 PROPRIÉTAIRE DE LA PLAYLIST REQUIS : monteboy63`);
+        console.log(`========================================\n`);
+        // =====================================
+
         // 1. Chercher la chanson sur Spotify
         const searchUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(songName)}&type=track&limit=1`;
         const searchRes = await fetch(searchUrl, {
@@ -54,7 +64,6 @@ async function addSongToPlaylist(songName, accessToken) {
                 body: JSON.stringify({ uris: [trackUri] })
             });
 
-            // ICI : Le nouveau log pour savoir si ça marche pour de vrai
             if (addRes.ok) {
                 console.log(`🎵 SUCCÈS RÉEL : "${songName}" a été ajoutée à ta playlist !`);
             } else {
@@ -100,7 +109,6 @@ export default async function handler(req, res) {
   }));
 
   try {
-    // 1. ENVOI DES DONNÉES VERS AIRTABLE
     const response = await fetch(`https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_NAME}`, {
       method: 'POST',
       headers: {
@@ -134,7 +142,7 @@ export default async function handler(req, res) {
     }
 
     // ==========================================
-    // 2. ENVOI DU COURRIEL DE CONFIRMATION AUX INVITÉS
+    // ENVOI DU COURRIEL DE CONFIRMATION AUX INVITÉS
     // ==========================================
     const guestsWithEmail = guests.filter(g => g.email && g.email.trim() !== '');
 
@@ -172,46 +180,16 @@ export default async function handler(req, res) {
                                 body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
                                 .main-text { color: #38462b !important; }
                                 .accent-text { color: #526342 !important; }
-                                
-                                @media (prefers-color-scheme: dark) {
-                                    body { background-color: #f6f5ef !important; }
-                                    .content-box { background-color: #f6f5ef !important; border-color: #526342 !important; }
-                                    .main-text { color: #38462b !important; }
-                                    .accent-text { color: #526342 !important; }
-                                    .divider { background-color: #526342 !important; opacity: 0.5 !important; }
-                                    .companion-box { background-color: rgba(82, 99, 66, 0.08) !important; }
-                                }
                             </style>
                         </head>
                         <body style="margin: 0; padding: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f6f5ef;">
                             <div class="content-box" style="background-color: #f6f5ef; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #526342; border-radius: 5px; text-align: center;">
                                 <h1 class="accent-text" style="color: #526342; font-weight: normal; margin-bottom: 20px;">Merci ${recipient.name.split(' ')[0]} !</h1>
-                                
                                 <p class="main-text" style="font-size: 16px; line-height: 1.6; margin-bottom: 20px; color: #38462b;">
                                     Nous confirmons la bonne réception de votre RSVP pour notre mariage.<br>
                                     Votre choix de repas (<strong class="accent-text" style="color: #526342;">${recipient.meal}</strong>) a bien été noté.
                                 </p>
-                                
                                 ${companionsHtml}
-
-                                <div style="margin: 30px 0;">
-                                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mariage+d%27Anne-Marie+%26+Marc-Andr%C3%A9&dates=20260912T193000Z%2F20260913T040000Z&details=Nous+avons+tr%C3%A8s+h%C3%A2te+de+c%C3%A9l%C3%A9brer+avec+vous+%21+Informations+et+h%C3%A9bergements+sur+%3A+https%3A%2F%2Fmariage-amma.com&location=1685+Chenal-du-Moine%2C+Sainte-Anne-de-Sorel&sf=true&output=xml" target="_blank" style="background-color: #526342; color: #f6f5ef; padding: 13px 28px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block; letter-spacing: 1px; font-size: 13px; text-transform: uppercase; font-family: sans-serif;">
-                                        📅 Ajouter à mon agenda
-                                    </a>
-                                </div>
-                                
-                                <div class="divider" style="width: 50px; height: 1px; background-color: #526342; margin: 0 auto 30px auto; opacity: 0.5;"></div>
-                                
-                                <p class="main-text" style="font-size: 14px; line-height: 1.6; opacity: 0.8; margin-bottom: 20px; color: #38462b;">
-                                    Si vous souhaitez reconsulter les détails de l'événement ou les options d'hébergement, n'hésitez pas à visiter notre site web :<br>
-                                    <a href="https://mariage-amma.com" class="accent-text" style="color: #526342; font-weight: bold; text-decoration: none;">Voir le site web du mariage</a>
-                                </p>
-                                
-                                <p class="accent-text" style="font-size: 14px; line-height: 1.6; font-style: italic; color: #526342;">
-                                    Pour toute question ou pour modifier votre réponse, vous pouvez nous écrire au <a href="mailto:info@mariage-amma.com" class="accent-text" style="color: #526342;">info@mariage-amma.com</a>.<br><br>
-                                    Nous avons très hâte de célébrer avec vous !<br><br>
-                                    Anne-Marie & Marc-André
-                                </p>
                             </div>
                         </body>
                         </html>
@@ -221,68 +199,6 @@ export default async function handler(req, res) {
                 console.error(`Erreur lors de l'envoi du courriel à ${recipient.email}:`, emailError);
             }
         }));
-    }
-
-    // ==========================================
-    // 3. ENVOI DE LA NOTIFICATION ADMIN (À VOUS)
-    // ==========================================
-    try {
-        let adminHtml = `
-            <!DOCTYPE html>
-            <html lang="fr">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="color-scheme" content="light">
-                <meta name="supported-color-schemes" content="light">
-                <style>
-                    :root { color-scheme: light; supported-color-schemes: light; }
-                    body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
-                    .accent-text { color: #526342 !important; }
-                    
-                    @media (prefers-color-scheme: dark) {
-                        body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
-                        .accent-text { color: #526342 !important; }
-                        .guest-card { background-color: rgba(82, 99, 66, 0.05) !important; border: 1px solid rgba(82, 99, 66, 0.15) !important; }
-                    }
-                </style>
-            </head>
-            <body style="margin: 0; padding: 20px; font-family: sans-serif; background-color: #f6f5ef;">
-                <div class="content-box" style="color: #38462b; max-width: 600px; margin: 0 auto; background-color: #f6f5ef; padding: 30px; border: 1px solid #526342; border-radius: 5px;">
-                    <h2 class="accent-text" style="color: #526342; font-weight: normal; margin-top: 0;">💒 Nouveau RSVP reçu !</h2>
-                    <p><strong>Groupe principal :</strong> ${groupName}</p>
-                    <p><strong>ID de soumission :</strong> ${submissionId}</p>
-                    <hr style="border: none; border-top: 1px solid rgba(82, 99, 66, 0.3); margin: 20px 0;">
-        `;
-
-        guests.forEach((guest, index) => {
-            adminHtml += `
-                <div class="guest-card" style="background-color: rgba(82, 99, 66, 0.05); padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid rgba(82, 99, 66, 0.15);">
-                    <h3 class="accent-text" style="margin-top: 0; color: #526342; font-weight: normal;">Invité #${index + 1} : ${guest.name}</h3>
-                    <ul style="line-height: 1.6; margin-bottom: 0; color: #38462b; padding-left: 20px;">
-                        <li><strong>Courriel :</strong> ${guest.email || '<em>Non spécifié</em>'}</li>
-                        <li><strong>Cellulaire :</strong> ${guest.phone || '<em>Non spécifié</em>'}</li>
-                        <li><strong>Repas :</strong> ${guest.meal}</li>
-                        <li><strong>Allergies / Restrictions :</strong> ${guest.restrictions || '<em>Aucune</em>'}</li>
-                        <li><strong>Chanson :</strong> ${guest.song || '<em>Aucune</em>'}</li>
-                    </ul>
-                </div>
-            `;
-        });
-
-        adminHtml += `
-                </div>
-            </body>
-            </html>
-        `;
-
-        await resend.emails.send({
-            from: 'Système RSVP <info@mariage-amma.com>', 
-            to: 'info@mariage-amma.com', 
-            subject: `🎉 Nouveau RSVP : ${groupName} (${guests.length} personne(s))`,
-            html: adminHtml
-        });
-    } catch (adminEmailError) {
-        console.error(`Erreur lors de l'envoi de la notification admin:`, adminEmailError);
     }
 
     return res.status(200).json({ success: true });
