@@ -26,17 +26,19 @@ async function addSongToPlaylist(songName, accessToken) {
     if (!songName || songName.trim() === '') return;
 
     try {
-        // 1. Chercher la chanson
-        const searchRes = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(songName)}&type=track&limit=1`, {
+        // 1. Chercher la chanson sur Spotify
+        const searchUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(songName)}&type=track&limit=1`;
+        const searchRes = await fetch(searchUrl, {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         });
         const searchData = await searchRes.json();
         
-        // 2. Si on trouve une chanson, on l'ajoute
+        // 2. Si on trouve une chanson, on l'ajoute à la playlist
         if (searchData.tracks && searchData.tracks.items.length > 0) {
             const trackUri = searchData.tracks.items[0].uri;
+            const playlistUrl = `https://api.spotify.com/v1/playlists/${process.env.SPOTIFY_PLAYLIST_ID}/tracks`;
             
-            const addRes = await fetch(`https://api.spotify.com/v1/playlists/${process.env.SPOTIFY_PLAYLIST_ID}/tracks`, {
+            const addRes = await fetch(playlistUrl, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -45,24 +47,24 @@ async function addSongToPlaylist(songName, accessToken) {
                 body: JSON.stringify({ uris: [trackUri] })
             });
 
-            // On vérifie la vraie réponse de Spotify
+            // ICI : Le nouveau log pour savoir si ça marche pour de vrai
             if (addRes.ok) {
-                console.log(`🎵 Succès RÉEL : "${songName}" ajoutée à Spotify !`);
+                console.log(`🎵 SUCCÈS RÉEL : "${songName}" a été ajoutée à ta playlist !`);
             } else {
                 const errorData = await addRes.json();
-                console.error(`❌ Spotify a refusé l'ajout (Erreur ${addRes.status}):`, errorData);
+                console.error(`❌ ÉCHEC DE L'AJOUT (Code ${addRes.status}) :`, JSON.stringify(errorData));
             }
 
         } else {
             console.log(`⚠️ Introuvable sur Spotify : "${songName}"`);
         }
     } catch (err) {
-        console.error(`Erreur lors de l'ajout Spotify pour "${songName}":`, err);
+        console.error(`Erreur système lors de l'ajout de "${songName}":`, err);
     }
 }
 
 // ==========================================
-// HANDLER PRINCIPAL DU FORMULAIRE
+// HANDLER PRINCIPAL DU FORMULAIRE RSVP
 // ==========================================
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -114,7 +116,6 @@ export default async function handler(req, res) {
     try {
         const spotifyToken = await getSpotifyAccessToken();
         if (spotifyToken) {
-            // Pour chaque invité, on vérifie s'il a demandé une chanson et on l'ajoute
             for (const guest of guests) {
                 if (guest.song && guest.song.trim() !== '') {
                     await addSongToPlaylist(guest.song, spotifyToken);
@@ -122,7 +123,7 @@ export default async function handler(req, res) {
             }
         }
     } catch (spotifyError) {
-        console.error('Erreur globale Spotify:', spotifyError);
+        console.error('Erreur d\'authentification globale Spotify:', spotifyError);
     }
 
     // ==========================================
