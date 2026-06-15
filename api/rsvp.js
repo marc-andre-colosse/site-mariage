@@ -2,6 +2,60 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// ==========================================
+// FONCTIONS SPOTIFY
+// ==========================================
+async function getSpotifyAccessToken() {
+    const basic = Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Basic ${basic}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: process.env.SPOTIFY_REFRESH_TOKEN
+        })
+    });
+    const data = await response.json();
+    return data.access_token;
+}
+
+async function addSongToPlaylist(songName, accessToken) {
+    if (!songName || songName.trim() === '') return;
+
+    try {
+        // 1. Chercher la chanson
+        const searchRes = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(songName)}&type=track&limit=1`, {
+            headers: { 'Authorization': `Bearer ${accessToken}` }
+        });
+        const searchData = await searchRes.json();
+        
+        // 2. Si on trouve une chanson, on l'ajoute
+        if (searchData.tracks && searchData.tracks.items.length > 0) {
+            const trackUri = searchData.tracks.items[0].uri;
+            
+            await fetch(`https://api.spotify.com/v1/playlists/${process.env.SPOTIFY_PLAYLIST_ID}/tracks`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ uris: [trackUri] })
+            });
+            console.log(`🎵 Succès : "${songName}" ajoutée à Spotify !`);
+        } else {
+            console.log(`⚠️ Introuvable sur Spotify : "${songName}"`);
+        }
+    } catch (err) {
+        console.error(`Erreur lors de l'ajout Spotify pour "${songName}":`, err);
+    }
+}
+
+// ==========================================
+// HANDLER PRINCIPAL DU FORMULAIRE
+// ==========================================
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Méthode non autorisée' });
@@ -43,9 +97,25 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       console.error('Erreur Airtable:', airtableData);
-      return res.status(response.status).json({ 
-        error: airtableData.error.message || "Erreur lors de l'enregistrement" 
-      });
+      return res.status(response.status).json({ error: airtableData.error.message || "Erreur lors de l'enregistrement" });
+    }
+
+    // ==========================================
+    // NOUVEAU : ENVOI DES CHANSONS VERS SPOTIFY
+    // ==========================================
+    try {
+        const spotifyToken = await getSpotifyAccessToken();
+        if (spotifyToken) {
+            // Pour chaque invité, on vérifie s'il a demandé une chanson et on l'ajoute
+            for (const guest of guests) {
+                if (guest.song && guest.song.trim() !== '') {
+                    await addSongToPlaylist(guest.song, spotifyToken);
+                }
+            }
+        }
+    } catch (spotifyError) {
+        // On capture l'erreur pour ne pas bloquer le reste du code (Airtable/Courriels)
+        console.error('Erreur globale Spotify:', spotifyError);
     }
 
     // 2. ENVOI DU COURRIEL DE CONFIRMATION AUX INVITÉS
@@ -53,7 +123,6 @@ export default async function handler(req, res) {
 
     if (guestsWithEmail.length > 0) {
         await Promise.all(guestsWithEmail.map(async (recipient) => {
-            
             const companions = guests.filter(g => g.name !== recipient.name);
             let companionsHtml = '';
             
@@ -79,28 +148,22 @@ export default async function handler(req, res) {
                         <html lang="fr">
                         <head>
                             <meta charset="UTF-8">
-                            <meta name="color-scheme" content="light dark">
-                            <meta name="supported-color-schemes" content="light dark">
+                            <meta name="color-scheme" content="light">
+                            <meta name="supported-color-schemes" content="light">
                             <style>
-                                :root { color-scheme: light dark; supported-color-schemes: light dark; }
+                                :root { color-scheme: light; supported-color-schemes: light; }
+                                body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
+                                .main-text { color: #38462b !important; }
+                                .accent-text { color: #526342 !important; }
                                 
-                                /* Règles strictes pour le Dark Mode (Surpasse le CSS en ligne avec !important) */
                                 @media (prefers-color-scheme: dark) {
-                                    body { background-color: #121410 !important; }
-                                    .content-box { background-color: #1a1c18 !important; border-color: #526342 !important; }
-                                    .main-text, p, li, span { color: #f6f5ef !important; }
-                                    .accent-text, h1, h2, h3, strong { color: #a9c292 !important; }
-                                    a.accent-text { color: #a9c292 !important; }
-                                    .divider { background-color: #a9c292 !important; opacity: 0.3 !important; }
-                                    .companion-box { background-color: #232620 !important; border: 1px solid #38462b !important; }
-                                    .cal-btn { background-color: #a9c292 !important; color: #1a1c18 !important; }
+                                    body { background-color: #f6f5ef !important; }
+                                    .content-box { background-color: #f6f5ef !important; border-color: #526342 !important; }
+                                    .main-text { color: #38462b !important; }
+                                    .accent-text { color: #526342 !important; }
+                                    .divider { background-color: #526342 !important; opacity: 0.5 !important; }
+                                    .companion-box { background-color: rgba(82, 99, 66, 0.08) !important; }
                                 }
-                                
-                                /* Règles de secours pour l'algorithme capricieux d'Outlook.com */
-                                [data-ogsc] body { background-color: #121410 !important; }
-                                [data-ogsc] .content-box { background-color: #1a1c18 !important; }
-                                [data-ogsc] .main-text { color: #f6f5ef !important; }
-                                [data-ogsc] .accent-text { color: #a9c292 !important; }
                             </style>
                         </head>
                         <body style="margin: 0; padding: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f6f5ef;">
@@ -115,7 +178,7 @@ export default async function handler(req, res) {
                                 ${companionsHtml}
 
                                 <div style="margin: 30px 0;">
-                                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mariage+d%27Anne-Marie+%26+Marc-Andr%C3%A9&dates=20260912T193000Z%2F20260913T040000Z&details=Nous+avons+tr%C3%A8s+h%C3%A2te+de+c%C3%A9l%C3%A9brer+avec+vous+%21+Informations+et+h%C3%A9bergements+sur+%3A+https%3A%2F%2Fmariage-amma.com&location=1685+Chenal-du-Moine%2C+Sainte-Anne-de-Sorel&sf=true&output=xml" class="cal-btn" target="_blank" style="background-color: #526342; color: #f6f5ef; padding: 13px 28px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block; letter-spacing: 1px; font-size: 13px; text-transform: uppercase; font-family: sans-serif;">
+                                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mariage+d%27Anne-Marie+%26+Marc-Andr%C3%A9&dates=20260912T193000Z%2F20260913T040000Z&details=Nous+avons+tr%C3%A8s+h%C3%A2te+de+c%C3%A9l%C3%A9brer+avec+vous+%21+Informations+et+h%C3%A9bergements+sur+%3A+https%3A%2F%2Fmariage-amma.com&location=1685+Chenal-du-Moine%2C+Sainte-Anne-de-Sorel&sf=true&output=xml" target="_blank" style="background-color: #526342; color: #f6f5ef; padding: 13px 28px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block; letter-spacing: 1px; font-size: 13px; text-transform: uppercase; font-family: sans-serif;">
                                         📅 Ajouter à mon agenda
                                     </a>
                                 </div>
@@ -150,24 +213,25 @@ export default async function handler(req, res) {
             <html lang="fr">
             <head>
                 <meta charset="UTF-8">
-                <meta name="color-scheme" content="light dark">
-                <meta name="supported-color-schemes" content="light dark">
+                <meta name="color-scheme" content="light">
+                <meta name="supported-color-schemes" content="light">
                 <style>
-                    :root { color-scheme: light dark; supported-color-schemes: light dark; }
+                    :root { color-scheme: light; supported-color-schemes: light; }
+                    body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
+                    .accent-text { color: #526342 !important; }
+                    
                     @media (prefers-color-scheme: dark) {
-                        body { background-color: #121410 !important; }
-                        .content-box { background-color: #1a1c18 !important; border-color: #526342 !important; }
-                        .main-text, p, li { color: #f6f5ef !important; }
-                        .accent-text, strong { color: #a9c292 !important; }
-                        .guest-card { background-color: #232620 !important; border: 1px solid #38462b !important; }
+                        body, .content-box { background-color: #f6f5ef !important; color: #38462b !important; }
+                        .accent-text { color: #526342 !important; }
+                        .guest-card { background-color: rgba(82, 99, 66, 0.05) !important; border: 1px solid rgba(82, 99, 66, 0.15) !important; }
                     }
                 </style>
             </head>
             <body style="margin: 0; padding: 20px; font-family: sans-serif; background-color: #f6f5ef;">
                 <div class="content-box" style="color: #38462b; max-width: 600px; margin: 0 auto; background-color: #f6f5ef; padding: 30px; border: 1px solid #526342; border-radius: 5px;">
                     <h2 class="accent-text" style="color: #526342; font-weight: normal; margin-top: 0;">💒 Nouveau RSVP reçu !</h2>
-                    <p class="main-text"><strong>Groupe principal :</strong> ${groupName}</p>
-                    <p class="main-text"><strong>ID de soumission :</strong> ${submissionId}</p>
+                    <p><strong>Groupe principal :</strong> ${groupName}</p>
+                    <p><strong>ID de soumission :</strong> ${submissionId}</p>
                     <hr style="border: none; border-top: 1px solid rgba(82, 99, 66, 0.3); margin: 20px 0;">
         `;
 
@@ -175,12 +239,12 @@ export default async function handler(req, res) {
             adminHtml += `
                 <div class="guest-card" style="background-color: rgba(82, 99, 66, 0.05); padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid rgba(82, 99, 66, 0.15);">
                     <h3 class="accent-text" style="margin-top: 0; color: #526342; font-weight: normal;">Invité #${index + 1} : ${guest.name}</h3>
-                    <ul class="main-text" style="line-height: 1.6; margin-bottom: 0; color: #38462b; padding-left: 20px;">
-                        <li><strong class="accent-text">Courriel :</strong> ${guest.email || '<em>Non spécifié</em>'}</li>
-                        <li><strong class="accent-text">Cellulaire :</strong> ${guest.phone || '<em>Non spécifié</em>'}</li>
-                        <li><strong class="accent-text">Repas :</strong> ${guest.meal}</li>
-                        <li><strong class="accent-text">Allergies / Restrictions :</strong> ${guest.restrictions || '<em>Aucune</em>'}</li>
-                        <li><strong class="accent-text">Chanson :</strong> ${guest.song || '<em>Aucune</em>'}</li>
+                    <ul style="line-height: 1.6; margin-bottom: 0; color: #38462b; padding-left: 20px;">
+                        <li><strong>Courriel :</strong> ${guest.email || '<em>Non spécifié</em>'}</li>
+                        <li><strong>Cellulaire :</strong> ${guest.phone || '<em>Non spécifié</em>'}</li>
+                        <li><strong>Repas :</strong> ${guest.meal}</li>
+                        <li><strong>Allergies / Restrictions :</strong> ${guest.restrictions || '<em>Aucune</em>'}</li>
+                        <li><strong>Chanson :</strong> ${guest.song || '<em>Aucune</em>'}</li>
                     </ul>
                 </div>
             `;
