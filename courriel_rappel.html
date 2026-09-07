@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+    
+    <!-- Importation des polices officielles du mariage -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Styles de base et adaptation mobile */
+        body { margin: 0; padding: 0; background-color: #f6f5ef; font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #38462b; }
+        .container { max-width: 600px; margin: 0 auto; padding: 0 20px 40px 20px; }
+        
+        /* --- SECTION HERO (Ventilée comme le site) --- */
+        .hero-section { text-align: center; padding: 60px 0 50px 0; }
+        .hero-h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 42px; color: #526342; font-weight: 400; margin: 25px 0; line-height: 1.1; }
+        .text-italic-serif { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 20px; line-height: 1.5; color: #526342; margin: 0; }
+        .text-caps-sans { font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; text-transform: uppercase; letter-spacing: 2px; font-size: 13px; font-weight: 700; color: #526342; margin: 0; }
+        .thin-divider { width: 40px; height: 1px; background-color: #526342; margin: 30px auto; opacity: 0.5; }
+        /* ------------------------------------------------------ */
+
+        /* Ligne séparatrice subtile entre les sections */
+        .subtle-divider { width: 100%; height: 1px; background-color: rgba(82, 99, 66, 0.15); margin: 50px 0; }
+
+        /* Titres des rubriques */
+        h2 { font-family: 'Playfair Display', Georgia, serif; color: #526342; font-weight: bold; margin-top: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 25px; }
+        
+        /* Structure verticale (Stack) */
+        .rubrique { text-align: center; }
+        p { line-height: 1.6; margin-top: 0; font-size: 16px; margin-bottom: 15px; }
+        
+        /* Éléments visuels */
+        .image-box { margin-top: 30px; }
+        .image-box img { width: 100%; max-width: 100%; border-radius: 8px; border: 1px solid rgba(82, 99, 66, 0.2); display: block; }
+        .image-box a { text-decoration: none; display: block; transition: opacity 0.3s ease; }
+        .image-box a:hover { opacity: 0.9; }
+        
+        /* Boîte Hôtel (Alerte douce) */
+        .hotel-box { background-color: rgba(82, 99, 66, 0.08); padding: 35px 25px; border-radius: 8px; border-top: 4px solid #526342; text-align: center; }
+        
+        /* Boutons */
+        .btn { display: inline-block; background-color: #526342; color: #f6f5ef !important; padding: 14px 28px; text-decoration: none; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 13px; letter-spacing: 2px; margin-top: 20px; font-family: 'Lato', sans-serif; }
+        
+        /* Ajustements mineurs pour les plus petits écrans */
+        @media screen and (max-width: 600px) {
+            .hero-section { padding: 40px 0 30px 0; }
+            .hero-h1 { font-size: 34px; }
+            .subtle-divider { margin: 40px 0; }
+            .hotel-box { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body style="background-color: #f6f5ef;">
+    <div class="container">
+        
+        <!-- EN-TÊTE VENTILÉ TYPE "SITE WEB" -->
+        <div class="hero-section">
+            <p class="text-italic-serif">Nous avons tellement hâte de<br>célébrer avec vous !</p>
+            
+            <div class="thin-divider"></div>
+            
+            <h1 class="hero-h1">J-5 avant le<br>grand jour ! 💍</h1>
+            
+            <div class="thin-divider"></div>
+            
+            <p class="text-caps-sans">12 Septembre 2026</p>
+            
+            <p class="text-italic-serif" style="font-size: 16px; margin-top: 40px; opacity: 0.9;">
+                Voici les derniers petits détails logistiques pour que<br>notre journée de samedi se déroule à la perfection.
+            </p>
+        </div>
+        
+        <div class="subtle-divider"></div>
+        
+        <!-- Rubrique 1 : Heure et Agenda -->
+        <div class="rubrique">
+            <h2>🕒 L'heure d'arrivée</h2>
+            <p>On vous attend avec impatience dès <strong>15h30</strong> pour un cocktail avant l'arrivée des mariés.</p>
+            <p>N'hésitez pas à ajouter l'événement directement à votre agenda pour avoir l'adresse sous la main.</p>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mariage+d%27Anne-Marie+%26+Marc-Andr%C3%A9&dates=20260912T193000Z%2F20260913T040000Z&details=Nous+avons+tr%C3%A8s+h%C3%A2te+de+c%C3%A9l%C3%A9brer+avec+vous+%21+Informations+sur+%3A+https%3A%2F%2Fmariage-amma.com&location=1685+Chenal-du-Moine%2C+Sainte-Anne-de-Sorel&sf=true&output=xml" target="_blank" class="btn">📅 Ajouter à mon agenda</a>
+        </div>
+
+        <div class="subtle-divider"></div>
+
+        <!-- Rubrique 2 : Stationnement -->
+        <div class="rubrique">
+            <h2>🚗 Stationnement</h2>
+            <p>Un grand espace de stationnement est disponible directement à l'arrière du bâtiment principal si celui d'en avant est plein à votre arrivée.</p>
+            <p>Cliquez sur l'image ci-dessous pour ouvrir l'itinéraire direct vers le stationnement dans Google Maps.</p>
+            <div class="image-box">
+                <!-- LIEN GOOGLE MAPS AJOUTÉ ICI -->
+                <a href="https://maps.app.goo.gl/xoJyrdx8Jq6ACrBN9" target="_blank">
+                    <img src="https://raw.githubusercontent.com/marc-andre-colosse/site-mariage/refs/heads/main/assets/images/Gmap_parking.jpeg" alt="Carte du stationnement" style="border: none;">
+                </a>
+            </div>
+        </div>
+
+        <div class="subtle-divider"></div>
+
+        <!-- Rubrique 3 : Hôtel -->
+        <div class="hotel-box">
+            <h2 style="margin-top: 0;">🏨 Hôtel de la Rive</h2>
+            <p style="margin-bottom: 0;">Si vous avez réservé votre chambre pour la nuit, assurez-vous de mentionner à la réception que vous faites partie du <strong>groupe d'Anne-Marie Simard</strong>. Dès que 10 chambres sont associées à notre groupe, l'hôtel peut appliquer un tarif préférentiel.</p>
+        </div>
+
+        <div class="subtle-divider"></div>
+
+        <!-- Rubrique 4 : Conclusion et GIF -->
+        <div class="rubrique">
+            <h2>💌 À très bientôt!</h2>
+            <p>De notre côté, on travaille très fort sur les tout derniers préparatifs (la preuve ci-dessous!).</p>
+            <p>Si vous avez la moindre question d'ici là, écrivez-nous simplement à ce courriel (<a href="mailto:info@mariage-amma.com" style="color: #526342; font-weight: bold; text-decoration: none;">info@mariage-amma.com</a>).</p>
+            <p style="margin-top: 30px;">On se voit samedi !<br><br><em style="font-family: 'Playfair Display', serif; font-size: 20px; color: #526342;">Anne-Marie & Marc-André</em></p>
+            
+            <div class="image-box">
+                <img src="https://github.com/marc-andre-colosse/site-mariage/blob/caa0e90420b4fd16d953e44796a4745aaa0e2c29/assets/images/Anne_Marie_preparatifs.gif?raw=true" alt="Préparatifs en cours">
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
