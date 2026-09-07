@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Mariage AMMA//FR
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:Mariage d'Anne-Marie & Marc-André
+DTSTART:20260912T193000Z
+DTEND:20260913T040000Z
+LOCATION:1685 Chenal-du-Moine, Sainte-Anne-de-Sorel, QC
+DESCRIPTION:Nous avons très hâte de célébrer avec vous ! Informations sur : https://mariage-amma.com
+URL:https://mariage-amma.com
+END:VEVENT
+END:VCALENDAR
