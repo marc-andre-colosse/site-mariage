@@ -20,7 +20,7 @@ async function sendTestEmail() {
             const { data, error } = await resend.emails.send({
                 from: 'Mariage Anne-Marie & Marc-André <info@mariage-amma.com>', 
                 to: email,
-                subject: 'J-5 avant le grand jour ! 💍',
+                subject: 'J-5 avant le grand jour (test) ! 💍',
                 html: htmlContent
             });
             
